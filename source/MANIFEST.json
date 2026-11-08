@@ -297,16 +297,16 @@
       "sha256": "5d6946870f86e89ec7ecd08a43d5af04060f010a255b978c627ace0370aee943"
     },
     "tests/web-game.test.mjs": {
-      "bytes": 2851,
-      "sha256": "8fe2c5118be8f240896543165735717f0c868eb6448ea01173371f4102a59151"
+      "bytes": 2821,
+      "sha256": "897c6f719645aff4a7f3f9699cba48e82e67fb557936139b85520556c895c535"
     },
     "web/index.html": {
-      "bytes": 1775,
-      "sha256": "b49661810a5c44ab6b965f0b646faa98f4dd232cfeca0f8987a7e36321e77934"
+      "bytes": 1388,
+      "sha256": "84a4794924790f64fb34bd36050dface9b199bc8e47514c77772db53baf15277"
     },
     "web/style.css": {
-      "bytes": 4345,
-      "sha256": "e25e4c794e188ea8b2f812778441e984199bc6ce577c5d5b81a6c095a61bc13d"
+      "bytes": 4215,
+      "sha256": "b7133731ea98f20f956d2ec3bd7a2e710c8bb16013de37b824a518d15c9456de"
     },
     "web/game.mjs": {
       "bytes": 624,
