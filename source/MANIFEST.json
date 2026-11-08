@@ -29,8 +29,8 @@
       "sha256": "189ffeaea413147fe3518ed35d4890f4bcbcb3c671ac4f650bf7d7558b41c3ab"
     },
     "api.mjs": {
-      "bytes": 4040,
-      "sha256": "47c482e03be81d7c639622a863bdc47e548050e64ede1f950835f7721dd689ec"
+      "bytes": 4152,
+      "sha256": "b1d97ccd1d16b32e1bfe10f89a78fa62623b3a7ea4933558f742c4493569186f"
     },
     "engine/experimental/cc0-portable-public-b562-v2/core.mjs": {
       "bytes": 3094,
@@ -301,24 +301,24 @@
       "sha256": "897c6f719645aff4a7f3f9699cba48e82e67fb557936139b85520556c895c535"
     },
     "web/index.html": {
-      "bytes": 1234,
-      "sha256": "63ec6b9b1b327ddc75fbd3d9f0720719c57e195bfdb7e9f24e52c6ce81bc2979"
+      "bytes": 1493,
+      "sha256": "81b700f005f7eb9e4d670f16c2a019d53fa1f0278f60fb890c27945d239b26b3"
     },
     "web/style.css": {
-      "bytes": 4627,
-      "sha256": "41f7ff7e33387c38c14cbdc73fd1a23a0d41272ef6da25fecf6f3f78e463f5fc"
+      "bytes": 4992,
+      "sha256": "e83454136eab569d086819750f83501f0dbb778f1b20f9b7106322fd41eb89b4"
     },
     "web/game.mjs": {
       "bytes": 624,
       "sha256": "83e8dfc409f37586ce585566a5e2880b6ae918a4b41ec95b587c23045281ef9d"
     },
     "web/app.mjs": {
-      "bytes": 4726,
-      "sha256": "9b8de41fc7c882e95b7a416765387a00f31937937e4381caf6e46cb74f8ca563"
+      "bytes": 5636,
+      "sha256": "7e15a2488ffdfe66d55c85139c5cf0967cd3f0f8c4b17d9104c8e2d35c19f8c8"
     },
     "web/engine-worker.mjs": {
-      "bytes": 526,
-      "sha256": "b7420c7040c98f32c249b248656e0c34a4a9737f68122ee7e542ba8862351cec"
+      "bytes": 985,
+      "sha256": "d491872b3167f09363564b72a23a7d3cc758fb1093a507088480f24516684506"
     },
     ".github/workflows/pages.yml": {
       "bytes": 2208,
@@ -359,6 +359,14 @@
     "CLOUDFLARE.md": {
       "bytes": 1460,
       "sha256": "b16d7fb32ddf393e9b192f8841dd7696ae5d2426ebe32be512d4150379487d11"
+    },
+    "web/model-download.mjs": {
+      "bytes": 1901,
+      "sha256": "221fe946da7da58c410f03220980383400282a4dc9aed1c94b6f5df3d32d37c5"
+    },
+    "tests/model-download.test.mjs": {
+      "bytes": 3477,
+      "sha256": "5734cbfeda28d1ee8024848795a1a8f31717a50eb1d4883692cc2920b2809596"
     }
   }
 }
