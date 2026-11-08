@@ -1,4 +1,4 @@
-name: Verified engine and Pages
+name: Verify and sync public release
 on:
   push:
     branches: [main]
@@ -6,13 +6,19 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: xiangqi-public-release
+  cancel-in-progress: false
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: source
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -23,19 +29,32 @@ jobs:
           echo 'c07e94a5c7cbeae443ed79a8fa412875d833a7f8e04333815e39729c59d52e11  models/xiangqi-c07e94a5c7cb.nnue' | sha256sum --check
       - run: npm test
       - run: node scripts/build-pages.mjs
-      - uses: actions/upload-pages-artifact@v3
+      - name: Require scoped publishing credential
+        env:
+          RELEASE_TOKEN: ${{ secrets.XIANGQI_RELEASE_TOKEN }}
+        run: |
+          if [ -z "$RELEASE_TOKEN" ]; then
+            echo '::error::Set XIANGQI_RELEASE_TOKEN in the private repository Actions secrets.'
+            exit 1
+          fi
+      - name: Checkout public release repository
+        uses: actions/checkout@v4
         with:
-          path: ../pages-dist
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          repository: syun99771-netizen/xiangqi-play
+          ref: main
+          path: release
+          token: ${{ secrets.XIANGQI_RELEASE_TOKEN }}
+      - name: Copy only validated release files
+        run: node scripts/prepare-release.mjs . ../release "$GITHUB_SHA"
+      - name: Push release snapshot without changing public workflow
+        working-directory: release
+        run: |
+          git config user.name 'xiangqi-release[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- source release.json
+          if git diff --cached --quiet; then
+            echo 'Release already synchronized.'
+            exit 0
+          fi
+          git commit -m "Release source ${GITHUB_SHA}"
+          git push origin HEAD:main

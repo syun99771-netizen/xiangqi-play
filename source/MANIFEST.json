@@ -321,8 +321,16 @@
       "sha256": "b7420c7040c98f32c249b248656e0c34a4a9737f68122ee7e542ba8862351cec"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1245,
-      "sha256": "cb154699bf4e513e4c9b0ff7be31b0dd0479c3d0ce274917f0089a464a7cf5e7"
+      "bytes": 2208,
+      "sha256": "495c08c262b1e459c6c7e7fd35f5270360fe1a25780b8fe03605fc2d9a054c4f"
+    },
+    "scripts/prepare-release.mjs": {
+      "bytes": 2363,
+      "sha256": "a760a916a9ca4a693952caad5e1bd05bb9237fc192b93ee74a9601661daf1f79"
+    },
+    "tests/release-sync.test.mjs": {
+      "bytes": 1609,
+      "sha256": "9a54f0aede67b1668027ebf54619859567283dc1e4097c76e09644d465c6d833"
     }
   }
 }
