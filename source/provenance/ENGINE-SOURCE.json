@@ -1,0 +1,222 @@
+{
+  "schema": "xiangqi-recovered-engine-source-v1",
+  "source": "fairy-reference-match-v1/candidate",
+  "baseline": "Recovered 2026-11-02 older publicSearch source; not the lost latestSearch b75bd4... source.",
+  "optimizations": [
+    "SDK requested-history-move legality preparation",
+    "Board.isLegalMove compatibility-preserving single-move fast path",
+    "NNUE applyColumn four-lane unroll, preserving each Int16 write",
+    "2026-11-08: skip unused checked-quiescence static evaluation"
+  ],
+  "excluded": [
+    "board-pseudo-index candidate",
+    "board-attack-index candidate"
+  ],
+  "files": [
+    {
+      "path": "engine/experimental/cc0-portable-public-b562-v2/core.mjs",
+      "bytes": 3094,
+      "sha256": "3667843ecc25016b6d2adb866bbcaee0bb6ad9be40be560f4451c1e03e99acbc",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/cc0-portable-public-b562-v2/profile.mjs",
+      "bytes": 4102,
+      "sha256": "a6c0c26cfd30c2c0f5a14c65b4af29d45e328a429a89d05651b3ca1df65738be",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/cc0-static-eval-cache-v1/cache.mjs",
+      "bytes": 4659,
+      "sha256": "5f05bb85b834da00787acd5cd2d1869f6fcd84f30700cca0f7fefbddb3e06011",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/features.mjs",
+      "bytes": 7838,
+      "sha256": "11cc87bede4e9610451348ceb98df3492b30db6a08618da02c08afb4c17202b2",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/format.mjs",
+      "bytes": 1356,
+      "sha256": "3b3fde890761ad6fa9e6d1ec746d85decba5d6f378a4867744acf82a92aae775",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs",
+      "bytes": 13871,
+      "sha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs",
+      "bytes": 4069,
+      "sha256": "f7e96dd316b188606e6b66312f4f94982743ce285add6498f4c2f45c7d8829d9",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/search-adapter.mjs",
+      "bytes": 2676,
+      "sha256": "8235706dc35dabae7437eded84040f6e85681b960fdcf44308de82996a138e66",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/package.json",
+      "bytes": 174,
+      "sha256": "9fc02988aa51d0f4833092374756d9a9757533bf23470651f4a287050e6315da",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/adjudication.js",
+      "bytes": 4425,
+      "sha256": "cefff6be57605d1dd7376c6c8cc85982e57fbdf66b710728de3ae70c2f865559",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/board.js",
+      "bytes": 15934,
+      "sha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/evaluate.js",
+      "bytes": 5419,
+      "sha256": "bbd9d08c3298189373c9217b3013643746128642c46404518ffe794c4db7e7fc",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/move-buffer.js",
+      "bytes": 736,
+      "sha256": "f16c7f59dda4c4ea66734a2676b1c7bcd56c616b0055346bf0aa80d58e6074a2",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/nnue.js",
+      "bytes": 6917,
+      "sha256": "041d8f03bff5497f840431d4c4aeb1183c6a47b044a463b84d6250a70c411a7f",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-profile-adjudicator.js",
+      "bytes": 2534,
+      "sha256": "eb628ec28e7e9b06586b7174b61c31c16f2c68893078f74399b6c2725ac2a2a8",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-repetition.mjs",
+      "bytes": 2068,
+      "sha256": "932673f62149d3345a8ca8b012ef7c6bd5b6b415abb4d1533b9cb578719f3fc6",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/legal-threat-evidence.mjs",
+      "bytes": 6262,
+      "sha256": "580d4372bb26cf500cccb1eb7b7af54fd254736c01356540bf23b911067b60b5",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/pin-evidence.mjs",
+      "bytes": 2330,
+      "sha256": "6db962583e7c8ea0ae7f707a2bed641890694758744b4a9feb77882982be7eb1",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/pinned-mainline-chase-v2.mjs",
+      "bytes": 3320,
+      "sha256": "1495cbbc17248daf94723b50fd9676ae29262ffe564157a1ba4859178301e7cd",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/pinned-mainline-cycle.mjs",
+      "bytes": 2249,
+      "sha256": "ebedcdefb229f6986ab5a1ce856c611d525815589a7438b328a41cdf014e30dc",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/root-referee.mjs",
+      "bytes": 3208,
+      "sha256": "7ab56df36e08213aa7540611a71334629eec5396970cf64fb0bf797114ddea8d",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/vendor/board.js",
+      "bytes": 15406,
+      "sha256": "5e490e5afcbe0f00beae67f1f069cf0f8e5bd12d4ec5e762779e6fff772aaaaa",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/vendor/package.json",
+      "bytes": 62,
+      "sha256": "e022c2a9b0cc8ef6a906166efd4646539af1a0e58bdbec273012dd9b6bd3fc81",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-rules/vendor/zobrist.js",
+      "bytes": 756,
+      "sha256": "d8b82e516fc1f00b6f0e31de851aca48a487adfdb4e192ac24886c3015bae7ed",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/public-search-capabilities.js",
+      "bytes": 1661,
+      "sha256": "ab6ac1e6eeb7384fefc9d891079a95c01e1799c587342f89fc77767c77f765ae",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/rule-profiles.js",
+      "bytes": 4828,
+      "sha256": "b07bc1e8b8c0a6beb9c2ba341276efbd981714f986ba1eb3b7de57b29cef4bf6",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/sdk/core.js",
+      "bytes": 8839,
+      "sha256": "c9bf4eeed968e35f95637075d9ee80c0b7550a5a7c6e7b85c81fcea8c2375829",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/sdk/model-codec.js",
+      "bytes": 2692,
+      "sha256": "47e0d043e3ad0542ddc5f62f831297b3d0ab9c06229dcda500114c6ccd628981",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/search-history-public-b562.js",
+      "bytes": 2501,
+      "sha256": "a8ca51cfb6112b4bce59f90d5e1f46c792e5d8da0e6397fa6ba80ab5d48f1308",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/search-history.js",
+      "bytes": 2087,
+      "sha256": "d8c5ad1b028867b03f4a8d1a1d8bcf210d3d3170a4668379193fcaad83502dc4",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/search-public-b562.js",
+      "bytes": 25369,
+      "sha256": "d378f466fb7bfae97b66b8828138cdb7ed91b33f035e6039e45c54d6717384ae",
+      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation",
+      "baselineSha256": "cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7"
+    },
+    {
+      "path": "engine/src/search.js",
+      "bytes": 19852,
+      "sha256": "8b5b74681be32cf45ba8f833fd691d4e1f76d823a34e042ab5f60d7010b6a10f",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/transposition.js",
+      "bytes": 3900,
+      "sha256": "22b69ab26dd28ba7a5c29c00a66ac15c36c76dc9b32052cdf5c157a55ea0d1a5",
+      "transformation": "none"
+    },
+    {
+      "path": "engine/src/zobrist.js",
+      "bytes": 756,
+      "sha256": "d8b82e516fc1f00b6f0e31de851aca48a487adfdb4e192ac24886c3015bae7ed",
+      "transformation": "none"
+    }
+  ]
+}

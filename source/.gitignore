@@ -1,0 +1,8 @@
+node_modules/
+*.nnue
+*.wasm
+*.log
+*.tap
+*.zip
+*.tgz
+.DS_Store

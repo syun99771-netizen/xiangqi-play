@@ -1,0 +1,44 @@
+name: Verified engine and Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node verify-manifest.mjs
+      - name: Download pinned CC0 model
+        run: |
+          curl --fail --location --retry 3 'https://raw.githubusercontent.com/fairy-stockfish/Fairy-Stockfish-NNUE/5fbbb9e15fd882cec18a2a5c3d4bfa25dc07169b/xiangqi-c07e94a5c7cb.nnue' -o models/xiangqi-c07e94a5c7cb.nnue
+          echo 'c07e94a5c7cbeae443ed79a8fa412875d833a7f8e04333815e39729c59d52e11  models/xiangqi-c07e94a5c7cb.nnue' | sha256sum --check
+      - run: npm test
+      - run: GITHUB_SHA="$(node -p "JSON.parse(require('fs').readFileSync('../release.json')).sourceCommit")" node scripts/build-pages.mjs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-dist
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
