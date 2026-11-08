@@ -202,12 +202,34 @@ export function createOwnedEvaluator(parameters) {
 
 function applyColumn(parameters, state, index, sign) {
   const start = index * FORMAT.accumulatorSize;
+  const words=state.accumulationWords, weights=parameters.ftWeightWords;
+  if (words && weights) {
+    const offset=start/2;
+    // Correct bit16 carry/borrow so each half wraps independently modulo2^16.
+    // Native-endian aliases pair corresponding lanes on either host byte order.
+    if (sign===1) {
+      for(let i=0;i<FORMAT.accumulatorSize/2;i+=2) {
+        const a=words[i],b=weights[offset+i],sum=(a+b)|0;
+        words[i]=sum-((a^b^sum)&0x10000);
+        const c=words[i+1],d=weights[offset+i+1],next=(c+d)|0;
+        words[i+1]=next-((c^d^next)&0x10000);
+      }
+    } else {
+      for(let i=0;i<FORMAT.accumulatorSize/2;i+=2) {
+        const a=words[i],b=weights[offset+i],diff=(a-b)|0;
+        words[i]=diff+((a^b^diff)&0x10000);
+        const c=words[i+1],d=weights[offset+i+1],next=(c-d)|0;
+        words[i+1]=next+((c^d^next)&0x10000);
+      }
+    }
+  } else {
   // Pinned architecture has512 lanes. Preserve separate Int16 writes exactly.
   for (let i = 0; i < FORMAT.accumulatorSize; i += 4) {
     state.accumulation[i] = state.accumulation[i] + sign * parameters.ftWeight[start + i];
     state.accumulation[i + 1] = state.accumulation[i + 1] + sign * parameters.ftWeight[start + i + 1];
     state.accumulation[i + 2] = state.accumulation[i + 2] + sign * parameters.ftWeight[start + i + 2];
     state.accumulation[i + 3] = state.accumulation[i + 3] + sign * parameters.ftWeight[start + i + 3];
+  }
   }
   const psqtStart = index * FORMAT.psqtBuckets;
   for (let i = 0; i < FORMAT.psqtBuckets; i++) {
@@ -240,7 +262,7 @@ function transition(parameters, previous, indices, scratch) {
   scratch.accumulation.set(previous.accumulation);
   scratch.psqt.set(previous.psqt);
   const next = {
-    accumulation: scratch.accumulation, psqt: scratch.psqt,
+    accumulation: scratch.accumulation, psqt: scratch.psqt, accumulationWords: scratch.accumulationWords,
     indices, mode: 'delta', removed: removed.length, added: added.length,
   };
   for (const index of removed) applyColumn(parameters, next, index, -1);
@@ -254,6 +276,13 @@ function createSession(parameters) {
   // diagnostic result; failed preparation/inference leaves active banks intact.
   let redActive = accumulatorStorage(), redScratch = accumulatorStorage();
   let blackActive = accumulatorStorage(), blackScratch = accumulatorStorage();
+  // Private aliases allocated once, not per transition or column. Internal
+  // nonaligned parameter fixtures retain the original scalar implementation.
+  const wordView=array=>array instanceof Int16Array && array.byteOffset%4===0 && array.byteLength%4===0
+    ? new Uint32Array(array.buffer,array.byteOffset,array.byteLength/4) : null;
+  parameters={...parameters,ftWeightWords:wordView(parameters.ftWeight)};
+  for(const storage of [redActive,redScratch,blackActive,blackScratch])
+    storage.accumulationWords=wordView(storage.accumulation);
   let evaluations = 0, refreshes = 0, deltas = 0, unchanged = 0, removedFeatures = 0, addedFeatures = 0;
   const evaluate = function evaluateIncrementalFeatures(options) {
     if (busy) throw new Error('Incremental evaluator session is not reentrant');

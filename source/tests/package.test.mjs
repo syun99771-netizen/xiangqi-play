@@ -24,9 +24,9 @@ test('every engine module matches provenance and explicitly recorded updates', a
       assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe');
     } else if(item.path==='engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs') {
       assert.equal(item.baselineSha256,'f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0');
-      assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged)');
-      assert.equal(item.priorVersions.at(-1).sha256,'6c1d01b319deb4f55d70a82bc3fca047f16f5cd1e486f56fac1e815e1100d5db');
-      assert.equal(item.priorVersions.at(-1).bytes,14921);
+      assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback)');
+      assert.equal(item.priorVersions.at(-1).sha256,'6c47f65342851ecda95ad7024e62e637af411eb568e368f511ca40f33ac60837');
+      assert.equal(item.priorVersions.at(-1).bytes,15248);
     } else assert.equal(item.transformation,'none');
   }
 });

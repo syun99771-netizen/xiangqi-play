@@ -25,16 +25,16 @@
       "sha256": "fae0e4d0ee3640a4492a4b38b5ce048a9669a9597ba4d111e9feef0220bdc977"
     },
     "OPTIMIZATION-20261108.md": {
-      "bytes": 10993,
-      "sha256": "517b8254255b4b7ebbf446b5c17bbc4764aa070a6108255c63e3a4e3b564c44c"
+      "bytes": 14721,
+      "sha256": "b121aa1c6bef0ae7c0e1fd3c3c256652fface4c0610fa2fef3d945602a4467e5"
     },
     "PAGES.md": {
       "bytes": 1821,
       "sha256": "b950fbea08f83e9949eee5431dbf398075d3bb80992f0db38d59a34d1714517b"
     },
     "README.md": {
-      "bytes": 7915,
-      "sha256": "3eb80855de803f86cc8b84107679d9b30c1975387a4c96f07159e0784e13adda"
+      "bytes": 8681,
+      "sha256": "f381475b20faab8cd82ec3395858cda3641f487e63bcc611b3f5d86d5a526afd"
     },
     "VERIFICATION.md": {
       "bytes": 3537,
@@ -69,8 +69,8 @@
       "sha256": "3b3fde890761ad6fa9e6d1ec746d85decba5d6f378a4867744acf82a92aae775"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs": {
-      "bytes": 15248,
-      "sha256": "6c47f65342851ecda95ad7024e62e637af411eb568e368f511ca40f33ac60837"
+      "bytes": 16722,
+      "sha256": "63362f520031d6eddab2997b736c1d1c3a47bb3fe7cacc64377f8f7b51d8d83b"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs": {
       "bytes": 4069,
@@ -209,12 +209,12 @@
       "sha256": "39a9dc4b4eb5aa4667a6372eba5f171248c8dc37a502d7c5c7394d7ce27670b3"
     },
     "package.json": {
-      "bytes": 1486,
-      "sha256": "cf68b29ade042b82b989173b9c78b793a340c4d44eb38eb7ada391c1ea50a1c1"
+      "bytes": 1517,
+      "sha256": "b258054f9567ed625bc1abf9539bd01ad03bb7d36c59039c127f5455cb8b3e58"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 8754,
-      "sha256": "71b4eee90f37b967f954c0d797fb3f33797ff8e9494bf80f608536d03efdaf3a"
+      "bytes": 9205,
+      "sha256": "a7082b6e8b6f5d965d26f05180b7214fe1eaa2c5fd589ba69a644bcfcacc53cd"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
@@ -277,8 +277,12 @@
       "sha256": "b259d52d836b6573009e00e4ced0004787a9ec955010987d07b081c476a47e87"
     },
     "tests/package.test.mjs": {
-      "bytes": 3112,
-      "sha256": "376045cb982d7238cf9aadcf23d337b1437cc8683b0f94d83476dd6416f94628"
+      "bytes": 3217,
+      "sha256": "a1e3fdf0ec7ec8d77e78b347e7aa573767dcb680b819f27121f6ce2f0981860a"
+    },
+    "tests/paired-ft-lanes.test.mjs": {
+      "bytes": 3737,
+      "sha256": "b8a21926c82ff7e455a5eebde52a6b2770de97a2e118d78137d3e150fbb359e9"
     },
     "tests/qsearch-checked-eval.test.mjs": {
       "bytes": 2295,

@@ -179,3 +179,64 @@ all8 buckets/both perspectives,5invalid-input rollbacks and5synthetic overflow
 cases. Focused11/11 includes the existing6 transaction groups plus5new groups.
 Previous upstream attribution and original hash remain; provenance additionally
 retains the intermediate905 forward hash/transformation in `priorVersions`.
+
+## Paired Int16 FT delta lanes (1.0.1)
+
+Against production15a, this change updates two independent Int16 accumulator
+lanes per Uint32 operation. Bit16 carry/borrow correction preserves each lane's
+modulo2^16 arithmetic. The original four-lane loop becomes two word operations;
+column order, scalar full refresh, PSQT, inference and search stay unchanged.
+Private views alias already-decoded native-endian arrays, not serialized model
+bytes. Both host byte orders represent the same componentwise operation. Views
+are allocated once per session; misaligned internal weight storage keeps scalar
+fallback. Active/scratch bank transaction, failure rollback, stats, reset and
+owned Int16 diagnostic snapshots are preserved. No weights or public API change.
+
+| Metric, candidate/15a baseline | Screen | Separate-process confirmation |
+| --- | ---: | ---: |
+| Aggregate Search CPU | 0.903283 | 0.894197 |
+| Median root CPU ratio | 0.892327 | 0.905913 |
+| Faster roots | 16/16 | 16/16 |
+| Worst root median | 0.941460 | 0.972001 |
+
+Each process used192 calls on16 fixed exposed roots, including correctness and
+alternating timing pairs; result/iterations/evaluation stream/cache/PV/restored
+state signatures were exact. Both passed the frozen aggregate/root-median<=.98,
+at least12faster, worst<=1.05 gate. This is **9.7–10.6% sampled Search CPU reduction
+relative to15a**, not an accumulated percentage, browser claim or Elo estimate.
+Fresh-process confirmation is not held-out strength evidence. A separate fixed200ms
+Node throughput diagnostic against15a completed160 calls/80 alternating pairs
+on the same16 exposed roots, with fresh Search/cache, depth16 and no node limit.
+No samples were discarded. Both arms stopped on time in all80 calls each.
+
+- Total nodes: baseline1,297,255 → candidate1,486,699; ratio1.1460345 (+14.60%).
+- Median paired node ratio1.128047; median root ratio1.126232; all16 roots gained.
+- Completed-depth differences:7 pairs +1,73 equal,0 lower.
+- Candidate Search wall200.048–202.484ms; whole-call wall201.270–209.378ms.
+- Legal moves/PVs, complete history, board/path restoration and limits passed.
+
+The measurement's source/document manifest was preserved before this reporting
+update and all measurement pins verified unchanged. This is throughput on
+exposed Node fixtures, not independent playing-strength, Elo or browser evidence;
+no percentages from different baselines are added.
+
+Numerical admission:839 cases compared with original incremental and full
+refresh, each in diagnostics/raw/diagnostics mode, including all8material
+buckets and81king-bucket pairs/both sides, arbitrary jumps, overflow, invalid
+rollback and unaligned fallback. Portable tests add89,604 actual-kernel paired
+operations against independent BigInt lane arithmetic, plus synthetic alignment,
+bank reuse/reset/ownership tests. Existing transaction fault-injection tests
+remain active. Big-endian symmetry is established algebraically and with swapped
+logical lanes, not execution on a physical big-endian machine. Provenance keeps
+the original upstream source hash and both prior905 and15a forward versions.
+
+### Closed experiments remain closed
+
+The isolated quiet-mate detector finished24 equal-time games5W10L6D3UNKNOWN,
+with no positive opening families; it failed and is not included. Subsequent
+capture-history and incremental-feature shadows did not pass their fixed
+opportunity gates. Forward move-geometry tables failed their resource gate
+(CPU ratio1.001352, only5/16faster). None is enabled or retried here. Previous
+905 equal-time match11W12L1D likewise did not establish stronger play. The present
+change preserves fixed-node search results; speed evidence must not replace
+playing-strength evidence.
