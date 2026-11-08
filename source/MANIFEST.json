@@ -301,20 +301,20 @@
       "sha256": "897c6f719645aff4a7f3f9699cba48e82e67fb557936139b85520556c895c535"
     },
     "web/index.html": {
-      "bytes": 1388,
-      "sha256": "84a4794924790f64fb34bd36050dface9b199bc8e47514c77772db53baf15277"
+      "bytes": 1234,
+      "sha256": "63ec6b9b1b327ddc75fbd3d9f0720719c57e195bfdb7e9f24e52c6ce81bc2979"
     },
     "web/style.css": {
-      "bytes": 4215,
-      "sha256": "b7133731ea98f20f956d2ec3bd7a2e710c8bb16013de37b824a518d15c9456de"
+      "bytes": 4627,
+      "sha256": "41f7ff7e33387c38c14cbdc73fd1a23a0d41272ef6da25fecf6f3f78e463f5fc"
     },
     "web/game.mjs": {
       "bytes": 624,
       "sha256": "83e8dfc409f37586ce585566a5e2880b6ae918a4b41ec95b587c23045281ef9d"
     },
     "web/app.mjs": {
-      "bytes": 3942,
-      "sha256": "88c380d419659bae7601bae80219f054fca3819115421a5dbaf21573f2271c80"
+      "bytes": 4726,
+      "sha256": "9b8de41fc7c882e95b7a416765387a00f31937937e4381caf6e46cb74f8ca563"
     },
     "web/engine-worker.mjs": {
       "bytes": 526,
@@ -335,6 +335,18 @@
     "web/board.svg": {
       "bytes": 2474,
       "sha256": "6407e13e3654bf6a3141ebad8d9c976d0013eec6f17a3cd7b219bef2fc76f0e4"
+    },
+    "web/notation.mjs": {
+      "bytes": 2176,
+      "sha256": "ee95ed448ca19afc7cd3346ab3cc2ac5c952eaa37afcb4e5cc0425dc6bbc582a"
+    },
+    "web/version.mjs": {
+      "bytes": 756,
+      "sha256": "620b6b2f7569f33c033bab78ad0f3f68a2db720547e209d9cb98429b4b09f893"
+    },
+    "tests/chinese-notation.test.mjs": {
+      "bytes": 4272,
+      "sha256": "37b15708eb1d387648adbe4d5a4a6c9c7a8249432b5ed8e0363fd36852bc326e"
     }
   }
 }
