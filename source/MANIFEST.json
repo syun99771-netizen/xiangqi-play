@@ -347,6 +347,18 @@
     "tests/chinese-notation.test.mjs": {
       "bytes": 4272,
       "sha256": "37b15708eb1d387648adbe4d5a4a6c9c7a8249432b5ed8e0363fd36852bc326e"
+    },
+    "cloudflare/wrangler.json": {
+      "bytes": 145,
+      "sha256": "18c33ca8bdca4c5742c279c36071097a6b1cc875c3db9837d1978ddeb5867e84"
+    },
+    "scripts/build-cloudflare.mjs": {
+      "bytes": 1741,
+      "sha256": "c2199030cc513776e9850e691d101ad868a5341e9665b82684d0a09bda625d3a"
+    },
+    "CLOUDFLARE.md": {
+      "bytes": 1460,
+      "sha256": "b16d7fb32ddf393e9b192f8841dd7696ae5d2426ebe32be512d4150379487d11"
     }
   }
 }
