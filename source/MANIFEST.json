@@ -293,8 +293,8 @@
       "sha256": "b950fbea08f83e9949eee5431dbf398075d3bb80992f0db38d59a34d1714517b"
     },
     "scripts/build-pages.mjs": {
-      "bytes": 1489,
-      "sha256": "763ab8ecf4666a6dab26e90097ca579b681e307af4eb7e3b8540cc65cfca7e19"
+      "bytes": 1848,
+      "sha256": "5d6946870f86e89ec7ecd08a43d5af04060f010a255b978c627ace0370aee943"
     },
     "tests/web-game.test.mjs": {
       "bytes": 2361,

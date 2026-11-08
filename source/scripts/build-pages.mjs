@@ -1,5 +1,8 @@
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
-const root=process.cwd(),out=path.resolve(process.env.PAGES_OUT||'../pages-dist');
+const root=process.cwd(),output=path.resolve(process.env.PAGES_OUT||'../pages-dist');
+const release=process.env.GITHUB_SHA||'local-development';
+if(!/^[a-zA-Z0-9-]+$/.test(release))throw Error('Unsafe release identifier');
+const out=path.join(output,'release-'+release);
 if(out===root||out.startsWith(root+path.sep))throw Error('Build output must be outside source tree');
 fs.mkdirSync(out,{recursive:true});
 for(const name of ['api.mjs','reference-core.mjs','engine','LICENSE','NOTICE.md','licenses','provenance'])fs.cpSync(name,path.join(out,name),{recursive:true});
@@ -11,4 +14,5 @@ fs.writeFileSync(path.join(out,'version.json'),JSON.stringify({commit:process.en
 // Publish precisely the reviewed source manifest, never .git or unrelated private files.
 const files=['MANIFEST.json',...Object.keys(JSON.parse(fs.readFileSync('MANIFEST.json')).files)];
 execFileSync('tar',['-czf',path.join(out,'source.tar.gz'),'--',...files]);
-fs.writeFileSync(path.join(out,'.nojekyll'),'');console.log(out);
+fs.writeFileSync(path.join(output,'index.html'),fs.readFileSync(path.join(out,'index.html'),'utf8').replace('<head>','<head><base href="./release-'+release+'/">'));
+fs.writeFileSync(path.join(output,'.nojekyll'),'');console.log(output);
