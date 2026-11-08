@@ -73,3 +73,48 @@ Final local checks for the second update: manifest 91 files, model-free suite
 100/100, full C07 suite 128/128, and static Pages build passed. A fresh local
 Chromium smoke attempt was blocked by the execution environment's process
 socket restriction; no new real-browser runtime validation is claimed here.
+
+## Transactional accumulator workspace (third update)
+
+Base: production `fd8b70fa624cdc706c1c6bc827eb1b06daa9c5f3`. Only the
+NNUE `forward.mjs` runtime module changes. Each incremental session privately
+owns active/scratch Int16 accumulator and Int32 PSQT banks per perspective.
+Delta copies into scratch with `set`, preserving the original column arithmetic;
+refresh initializes scratch completely, retaining the original refresh decision.
+Both perspectives and inference/diagnostic copies must succeed before commit.
+Unchanged perspectives do not swap banks. Exceptions retain active state and
+statistics; reset and arbitrary position jumps remain supported. Diagnostic
+arrays never alias these banks. This is not ancestor/anchor caching, input fusion,
+column fusion, a model change, or a search-policy change.
+
+Two fresh-process runs used the same 16 previously exposed saved-game histories,
+16,384 nodes/search, depth cap 16, fresh Search/TT/evaluator/cache per request,
+no wall-time cutoff. Each included one correctness pair and five interleaved
+AB/BA timing pairs per root: **192 calls per run**. Both retained identical
+non-time search results, evaluation-stream digest, cache/accumulator statistics,
+iterations, PV and restored board/history signatures.
+
+| Metric, candidate/baseline | Screen | Separate-process confirmation |
+| --- | ---: | ---: |
+| Aggregate Search CPU | 0.921683 | 0.935890 |
+| Median root CPU ratio | 0.921867 | 0.925239 |
+| Faster roots | 16/16 | 15/16 |
+| Worst root median | 0.983064 | 1.028457 |
+
+Both passed the frozen gate: aggregate and root-median CPU ratios <=0.98,
+at least 12/16 faster roots and worst root median <=1.05. The observed saving
+is about **6.4–7.8% sampled Search CPU**, not an Elo, equal-time match, browser,
+Android, or universally deeper-search claim. Confirmation used a separate
+process, not independent held-out positions. No coefficient tuning, sample
+extension or discarded slow-root rerun was used. Failed paired-feature and
+adjusted-blend candidates are not included.
+
+Numerical admission compared 608 cases with original incremental and full-refresh
+oracles, including all diagnostic arrays/stats, 12 actual histories, five invalid
+input rollbacks and five synthetic overflow cases. Six model-free regression
+groups cover all nine red/black unchanged/delta/refresh combinations, eight
+material buckets/both sides, arbitrary jumps/reset, diagnostic/session ownership,
+overflow and exception/reentrancy rollback. Test-only fault injection loads a
+private module instance; production has no debug switch or global mutation.
+Original C07 weights and upstream GPL attribution remain unchanged. Provenance
+retains the previous `forward.mjs` hash and records this transformation.

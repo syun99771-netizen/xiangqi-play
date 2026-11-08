@@ -22,6 +22,9 @@ test('every engine module matches provenance and explicitly recorded updates', a
     if(item.path==='engine/src/search-public-b562.js') {
       assert.equal(item.baselineSha256,'cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7');
       assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe');
+    } else if(item.path==='engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs') {
+      assert.equal(item.baselineSha256,'f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0');
+      assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics');
     } else assert.equal(item.transformation,'none');
   }
 });

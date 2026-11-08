@@ -26,9 +26,14 @@ function checkedIndices(indices, name, pieceCount) {
   return copy;
 }
 
-function refresh(parameters, indices) {
-  const accumulation = new Int16Array(parameters.ftBias);
-  const psqt = new Int32Array(FORMAT.psqtBuckets);
+function accumulatorStorage() {
+  return {accumulation: new Int16Array(FORMAT.accumulatorSize), psqt: new Int32Array(FORMAT.psqtBuckets)};
+}
+
+function refresh(parameters, indices, storage = accumulatorStorage()) {
+  const {accumulation, psqt} = storage;
+  accumulation.set(parameters.ftBias);
+  psqt.fill(0);
   for (const index of indices) {
     const start = index * FORMAT.accumulatorSize;
     for (let i = 0; i < FORMAT.accumulatorSize; i++) {
@@ -204,11 +209,11 @@ function applyColumn(parameters, state, index, sign) {
   }
 }
 
-function transition(parameters, previous, indices) {
+function transition(parameters, previous, indices, scratch) {
   // Sorted owned feature snapshots make the delta exact and independent of
   // input order, Board object identity, hash collisions, or search ancestry.
   indices.sort();
-  if (previous === null) return { ...refresh(parameters, indices), indices, mode: 'refresh', removed: 0, added: indices.length };
+  if (previous === null) return { ...refresh(parameters, indices, scratch), indices, mode: 'refresh', removed: 0, added: indices.length };
   const removed = [], added = [];
   let oldAt = 0, nextAt = 0;
   while (oldAt < previous.indices.length || nextAt < indices.length) {
@@ -223,11 +228,13 @@ function transition(parameters, previous, indices) {
   // Own-king bucket jumps replace all columns. Refresh is cheaper than removing
   // the entire old bucket and adding the entire new one. This cost test also
   // handles unrelated position jumps without a board-specific assumption.
-  if (changes >= indices.length) return { ...refresh(parameters, indices), indices, mode: 'refresh', removed: removed.length, added: added.length };
+  if (changes >= indices.length) return { ...refresh(parameters, indices, scratch), indices, mode: 'refresh', removed: removed.length, added: added.length };
   // Copy-before-write is transactional: neither perspective is committed until
   // both are prepared and inference succeeds. Exceptions cannot poison a search.
+  scratch.accumulation.set(previous.accumulation);
+  scratch.psqt.set(previous.psqt);
   const next = {
-    accumulation: previous.accumulation.slice(), psqt: previous.psqt.slice(),
+    accumulation: scratch.accumulation, psqt: scratch.psqt,
     indices, mode: 'delta', removed: removed.length, added: added.length,
   };
   for (const index of removed) applyColumn(parameters, next, index, -1);
@@ -237,15 +244,27 @@ function transition(parameters, previous, indices) {
 
 function createSession(parameters) {
   let redState = null, blackState = null, busy = false;
+  // Two private banks per perspective. Scratch is never an active state or a
+  // diagnostic result; failed preparation/inference leaves active banks intact.
+  let redActive = accumulatorStorage(), redScratch = accumulatorStorage();
+  let blackActive = accumulatorStorage(), blackScratch = accumulatorStorage();
   let evaluations = 0, refreshes = 0, deltas = 0, unchanged = 0, removedFeatures = 0, addedFeatures = 0;
   const evaluate = function evaluateIncrementalFeatures(options) {
     if (busy) throw new Error('Incremental evaluator session is not reentrant');
     busy = true;
     try {
       const checked = checkedOptions(options);
-      const nextRed = transition(parameters, redState, checked.red);
-      const nextBlack = transition(parameters, blackState, checked.black);
+      const nextRed = transition(parameters, redState, checked.red, redScratch);
+      const nextBlack = transition(parameters, blackState, checked.black, blackScratch);
       const result = evaluateStates(parameters, checked, nextRed, nextBlack);
+      // Commit only after BOTH perspectives and diagnostics/inference succeed.
+      // An unchanged perspective still uses its active bank: do not swap it.
+      if (nextRed.accumulation === redScratch.accumulation) {
+        const old = redActive; redActive = redScratch; redScratch = old;
+      }
+      if (nextBlack.accumulation === blackScratch.accumulation) {
+        const old = blackActive; blackActive = blackScratch; blackScratch = old;
+      }
       redState = nextRed;
       blackState = nextBlack;
       evaluations++;

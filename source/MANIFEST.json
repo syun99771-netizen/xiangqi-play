@@ -25,16 +25,16 @@
       "sha256": "fae0e4d0ee3640a4492a4b38b5ce048a9669a9597ba4d111e9feef0220bdc977"
     },
     "OPTIMIZATION-20261108.md": {
-      "bytes": 4483,
-      "sha256": "c9c1c88464318f064757cfe8f1f9ce0e9233abb4c5d105817a2b95eee89bea57"
+      "bytes": 7224,
+      "sha256": "9b08e85526e92091580fbc39239ba306b9226ecf647883c0b94fa6adbbc143c6"
     },
     "PAGES.md": {
       "bytes": 1821,
       "sha256": "b950fbea08f83e9949eee5431dbf398075d3bb80992f0db38d59a34d1714517b"
     },
     "README.md": {
-      "bytes": 7110,
-      "sha256": "2d3bce67159c69da133b3edf01c2079632ee92898f7dc3a515532b7f895ff861"
+      "bytes": 7351,
+      "sha256": "f956746ba01db32913701405daa6c69ec79ad63cc18db6d8cea9950950b6ff23"
     },
     "VERIFICATION.md": {
       "bytes": 3537,
@@ -69,8 +69,8 @@
       "sha256": "3b3fde890761ad6fa9e6d1ec746d85decba5d6f378a4867744acf82a92aae775"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs": {
-      "bytes": 13871,
-      "sha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0"
+      "bytes": 14921,
+      "sha256": "6c1d01b319deb4f55d70a82bc3fca047f16f5cd1e486f56fac1e815e1100d5db"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs": {
       "bytes": 4069,
@@ -209,12 +209,12 @@
       "sha256": "39a9dc4b4eb5aa4667a6372eba5f171248c8dc37a502d7c5c7394d7ce27670b3"
     },
     "package.json": {
-      "bytes": 1416,
-      "sha256": "239d8b5f46caf5a47756c3c5075e2c51f989580cc9395b081fea49d233505c6b"
+      "bytes": 1453,
+      "sha256": "991943ada93b2f9275755c0beb1090cf5006505f7874b683352f4cd9276e0b17"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 7927,
-      "sha256": "69dcee2c0d1aa46d81e9a26ca3acce88d96350bcae6a94d6b11864ea66ef4411"
+      "bytes": 8265,
+      "sha256": "0c48d63ba09247726650b3c46f35db1c8b3a2aa639e28ad173c4afa964398e97"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
@@ -235,6 +235,10 @@
     "scripts/prepare-release.mjs": {
       "bytes": 2363,
       "sha256": "a760a916a9ca4a693952caad5e1bd05bb9237fc192b93ee74a9601661daf1f79"
+    },
+    "tests/accumulator-workspace.test.mjs": {
+      "bytes": 4715,
+      "sha256": "97ca91577461558cce2c9e062ec26cc369859211cca2f73cec271cedabd98b36"
     },
     "tests/adjudication.test.mjs": {
       "bytes": 4136,
@@ -273,8 +277,8 @@
       "sha256": "b259d52d836b6573009e00e4ced0004787a9ec955010987d07b081c476a47e87"
     },
     "tests/package.test.mjs": {
-      "bytes": 2512,
-      "sha256": "01bd88135c6228251a6d33d94357d8c61922b58c059d168a3c9637a7ec5883f8"
+      "bytes": 2858,
+      "sha256": "70b7864de006491e4a1286c58cf741d6ae0c43afc2fead53347809cd2ba41cf6"
     },
     "tests/qsearch-checked-eval.test.mjs": {
       "bytes": 2295,
