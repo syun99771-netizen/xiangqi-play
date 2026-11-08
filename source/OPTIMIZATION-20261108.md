@@ -118,3 +118,64 @@ overflow and exception/reentrancy rollback. Test-only fault injection loads a
 private module instance; production has no debug switch or global mutation.
 Original C07 weights and upstream GPL attribution remain unchanged. Provenance
 retains the previous `forward.mjs` hash and records this transformation.
+
+### Follow-up on the third update: time budget and playing-strength checks
+
+The published905da0e accumulator-workspace version was separately compared with
+fd8b70f at200ms/depth16/no node cap, fresh Search/cache, on the same16 exposed
+histories:5 alternating pairs/root,160 calls, all retained. Total nodes increased
+6.21%, median root node ratio1.05053,15/16 roots gained;4/80 pairs completed one
+extra depth and76 matched, none lower. Baseline Search.run wall range was
+200.062–201.773ms; candidate200.046–205.604ms. The worst5.604ms overshoot was
+retained. This is soft-limit throughput evidence, not a strength result.
+
+A separate preregistered24-game200ms self-play diagnostic used12 new seeded
+quiet openings with colors reversed, baseline full-history public-b562 referee,
+240-ply UNKNOWN cap and250ms whole-API timing ceiling. Candidate905 scored
+**11 wins,12 losses,1 draw**, with0UNKNOWN/invalid/unstarted/timing violations,
+only1 conservatively positive opening family: the frozen strength-screen gate
+**failed**. Independent replay checked2924 played plies and10522 PV edges.
+No stronger-play or Elo claim follows, and no extra games/retry were added.
+This does not invalidate the separately verified exact computational saving.
+
+## Incremental sorted-owned feature validation (fourth update)
+
+Base: published905da0e transactional-accumulator version. Only `forward.mjs`
+runtime changes. Incremental validation copies/range-checks the supplied indices,
+sorts the owned Uint16Array and rejects adjacent duplicates without allocating
+a Set. Transition consumes the already sorted snapshot. Full-refresh retains
+its original Set validation and original feature-contribution order. No model,
+search, rule, arithmetic, diagnostic ownership or public request option changes.
+
+Compatibility boundary: on incremental inputs containing several faults, the
+first reported fault or duplicate value can change; duplicate-then-late-getter
+inputs may read further before throwing. Invalid inputs remain rejected and
+both-perspective state/statistics rollback remains intact. Do not claim identical
+error messages/order/getter call traces. Normal SDK inputs and valid stable
+feature arrays retain exact numeric behavior. Full-refresh error order is
+unchanged. Five new regression groups explicitly exercise these boundaries.
+
+Two fresh processes, each192 calls on the same16 exposed histories at16384
+nodes/depth16, retained exact non-time search, evaluation-stream, accumulator/
+cache, iteration, PV and restored-state signatures. Each run used one correctness
+pair and five alternating timing pairs per root, without discards or reruns.
+
+| Metric, candidate/905 baseline | Screen | Separate-process confirmation |
+| --- | ---: | ---: |
+| Aggregate Search CPU | 0.941262 | 0.942872 |
+| Median root CPU ratio | 0.944460 | 0.943913 |
+| Faster roots | 15/16 | 15/16 |
+| Worst root median | 1.041835 | 1.002870 |
+
+Both pass the frozen gate aggregate/root-median<=0.98,at least12/16faster,
+worst root<=1.05. This is **5.7–5.9% sampled Search CPU reduction relative to905**;
+do not add percentages from different baselines into a cumulative claim.
+Confirmation is independent-process, not held-out-position evidence. No new
+browser, Android, equal-time playing-strength or Elo result is asserted.
+
+Admission:670 independent original incremental/full-refresh diagnostic and stats
+comparisons, including12 actual histories, random/reversed feature ordering,
+all8 buckets/both perspectives,5invalid-input rollbacks and5synthetic overflow
+cases. Focused11/11 includes the existing6 transaction groups plus5new groups.
+Previous upstream attribution and original hash remain; provenance additionally
+retains the intermediate905 forward hash/transformation in `priorVersions`.

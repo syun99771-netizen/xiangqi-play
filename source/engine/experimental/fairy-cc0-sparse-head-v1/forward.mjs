@@ -7,21 +7,27 @@ import { FORMAT } from './format.mjs';
 const clip = value => Math.max(0, Math.min(127, value));
 const truncDiv = (value, divisor) => Math.trunc(value / divisor) || 0;
 
-function checkedIndices(indices, name, pieceCount) {
+function checkedIndices(indices, name, pieceCount, sorted = false) {
   if (!Array.isArray(indices) && !(ArrayBuffer.isView(indices) && !(indices instanceof DataView))) {
     throw new TypeError(`${name} must be an Array or TypedArray of integer feature indices`);
   }
   if (indices.length !== pieceCount) throw new RangeError(`${name}.length must equal pieceCount`);
   const copy = new Uint16Array(pieceCount);
-  const seen = new Set();
+  const seen = sorted ? null : new Set();
   for (let i = 0; i < pieceCount; i++) {
     const index = indices[i];
     if (!Number.isInteger(index) || index < 0 || index >= FORMAT.featureCount) {
       throw new RangeError(`${name}[${i}] must be an integer in [0, ${FORMAT.featureCount - 1}]`);
     }
-    if (seen.has(index)) throw new RangeError(`${name} contains duplicate feature index ${index}`);
-    seen.add(index);
+    if (seen?.has(index)) throw new RangeError(`${name} contains duplicate feature index ${index}`);
+    seen?.add(index);
     copy[i] = index;
+  }
+  if (sorted) {
+    copy.sort();
+    for (let i = 1; i < copy.length; i++) {
+      if (copy[i] === copy[i - 1]) throw new RangeError(`${name} contains duplicate feature index ${copy[i]}`);
+    }
   }
   return copy;
 }
@@ -126,7 +132,7 @@ function activation(input) {
 // only be created from this module's validated, privately owned parser model.
 const sessionFactories = new WeakMap();
 
-function checkedOptions(options) {
+function checkedOptions(options, sorted = false) {
   if (options === null || typeof options !== 'object') throw new TypeError('evaluation options are required');
   const { pieceCount, sideToMove, diagnostics = false } = options;
   if (!Number.isInteger(pieceCount) || pieceCount < 2 || pieceCount > 32) {
@@ -137,8 +143,8 @@ function checkedOptions(options) {
   }
   if (typeof diagnostics !== 'boolean') throw new TypeError('diagnostics must be boolean');
   // Validate and snapshot BOTH perspectives before any persistent state changes.
-  const red = checkedIndices(options.red, 'red', pieceCount);
-  const black = checkedIndices(options.black, 'black', pieceCount);
+  const red = checkedIndices(options.red, 'red', pieceCount, sorted);
+  const black = checkedIndices(options.black, 'black', pieceCount, sorted);
   return { red, black, pieceCount, sideToMove, diagnostics };
 }
 
@@ -212,7 +218,7 @@ function applyColumn(parameters, state, index, sign) {
 function transition(parameters, previous, indices, scratch) {
   // Sorted owned feature snapshots make the delta exact and independent of
   // input order, Board object identity, hash collisions, or search ancestry.
-  indices.sort();
+  // checkedOptions has already sorted this private incremental snapshot.
   if (previous === null) return { ...refresh(parameters, indices, scratch), indices, mode: 'refresh', removed: 0, added: indices.length };
   const removed = [], added = [];
   let oldAt = 0, nextAt = 0;
@@ -253,7 +259,7 @@ function createSession(parameters) {
     if (busy) throw new Error('Incremental evaluator session is not reentrant');
     busy = true;
     try {
-      const checked = checkedOptions(options);
+      const checked = checkedOptions(options, true);
       const nextRed = transition(parameters, redState, checked.red, redScratch);
       const nextBlack = transition(parameters, blackState, checked.black, blackScratch);
       const result = evaluateStates(parameters, checked, nextRed, nextBlack);

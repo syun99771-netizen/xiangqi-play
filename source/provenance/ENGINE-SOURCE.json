@@ -8,7 +8,8 @@
     "NNUE applyColumn four-lane unroll, preserving each Int16 write",
     "2026-11-08: skip unused checked-quiescence static evaluation",
     "2026-11-08: bypass unused leaf ordering-only TT probe",
-    "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics"
+    "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics",
+    "2026-11-08: incremental sorted-owned feature validation without Set; full-refresh validation unchanged"
   ],
   "excluded": [
     "board-pseudo-index candidate",
@@ -47,11 +48,18 @@
     },
     {
       "path": "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs",
-      "bytes": 14921,
-      "sha256": "6c1d01b319deb4f55d70a82bc3fca047f16f5cd1e486f56fac1e815e1100d5db",
-      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics",
+      "bytes": 15248,
+      "sha256": "6c47f65342851ecda95ad7024e62e637af411eb568e368f511ca40f33ac60837",
+      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged)",
       "baselineSha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0",
-      "baselineBytes": 13871
+      "baselineBytes": 13871,
+      "priorVersions": [
+        {
+          "bytes": 14921,
+          "sha256": "6c1d01b319deb4f55d70a82bc3fca047f16f5cd1e486f56fac1e815e1100d5db",
+          "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics"
+        }
+      ]
     },
     {
       "path": "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs",
