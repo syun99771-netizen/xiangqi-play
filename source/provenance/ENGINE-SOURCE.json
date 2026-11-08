@@ -6,7 +6,8 @@
     "SDK requested-history-move legality preparation",
     "Board.isLegalMove compatibility-preserving single-move fast path",
     "NNUE applyColumn four-lane unroll, preserving each Int16 write",
-    "2026-11-08: skip unused checked-quiescence static evaluation"
+    "2026-11-08: skip unused checked-quiescence static evaluation",
+    "2026-11-08: bypass unused leaf ordering-only TT probe"
   ],
   "excluded": [
     "board-pseudo-index candidate",
@@ -195,10 +196,11 @@
     },
     {
       "path": "engine/src/search-public-b562.js",
-      "bytes": 25369,
-      "sha256": "d378f466fb7bfae97b66b8828138cdb7ed91b33f035e6039e45c54d6717384ae",
-      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation",
-      "baselineSha256": "cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7"
+      "bytes": 25529,
+      "sha256": "a94dc100509976b062a1644a55a352dc67e3664b4016c2d350f596c99f6cc25c",
+      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe",
+      "baselineSha256": "cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7",
+      "previousSha256": "d378f466fb7bfae97b66b8828138cdb7ed91b33f035e6039e45c54d6717384ae"
     },
     {
       "path": "engine/src/search.js",

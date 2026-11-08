@@ -21,7 +21,7 @@ test('every engine module matches provenance and explicitly recorded updates', a
     assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256,item.path);
     if(item.path==='engine/src/search-public-b562.js') {
       assert.equal(item.baselineSha256,'cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7');
-      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation');
+      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe');
     } else assert.equal(item.transformation,'none');
   }
 });

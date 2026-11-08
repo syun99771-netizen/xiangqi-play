@@ -35,3 +35,41 @@ Actual browser execution needs its own validation.
 
 `provenance/ENGINE-SOURCE.json` preserves the modified file's baseline hash and
 records its new hash and transformation; the other 33 engine files are intact.
+
+## Leaf ordering-only TT bypass (second update)
+
+Base: `cf13dbc127b94269940e93bcd0f8c80e8e3f408e`. After all existing
+repetition, terminal, hard-ply and check-extension processing, a depth-zero
+node now enters quiescence before constructing an unused position key or
+reading an ordering-only transposition-table hint. Root/move ordering, TT
+writes, quiescence evaluation and node accounting are unchanged. An explicit
+`!ttBounds` guard retains the former branch for low-level option mutation.
+Normal public profiles already disallow TT score bounds.
+
+Two fresh-process runs of the same 16 exposed histories, each with 192 calls
+(one correctness pair and five interleaved timing pairs per root), at 16,384
+nodes/depth cap 16, preserved complete result, evaluation-stream, cache,
+iteration, PV and restored-state signatures. Candidate/baseline CPU ratios:
+**0.96495 / 0.97628**, or **2.37–3.50% less CPU** on this sample. Whole-request
+ratios: 0.96541 / 0.97670. Root median ratios: 0.95434 / 0.97119; 14/16 and
+15/16 roots faster; worst medians: 1.04384 / 1.00881. The predeclared gate for
+this small change was >=2% aggregate and root-median improvement, >=12/16
+faster roots, worst median <=1.05, confirmed in an independent process.
+
+Six additional regressions exercise both TT storage modes, positive depth,
+check extensions, actual repetition, terminal/hard-ply ordering, restored
+state and low-level TT-bounds compatibility. Reproduce functional checks with
+`npm run verify`, `npm run test:unit` and `npm test` (the latter needs C07).
+
+This is reduced computation, not a new evaluation model or demonstrated Elo
+increase. Fixed-time choices may change as more work fits in the budget.
+These exposed positions are not a held-out strength sample. No Android/browser
+speedup is inferred from Node timing. Low-level custom `key`/`ttGet` side effects
+are not preserved on bypassed leaves; the public API uses standard internals.
+The separately tested NNUE transform-fusion candidate was slower and is not
+included in this update.
+
+Final local checks for the second update: manifest 91 files, model-free suite
+100/100, full C07 suite 128/128, and static Pages build passed. A fresh local
+Chromium smoke attempt was blocked by the execution environment's process
+socket restriction; no new real-browser runtime validation is claimed here.

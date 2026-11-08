@@ -74,6 +74,8 @@ export class Search {
     if(depth>0||ply>=100){check=b.inCheck();this.resolvePublicClock(check);const terminal=this.publicNonRepetitionTerminal(ply);if(terminal!==null)return terminal;}
     if(ply>=100){if(!this.legalMoves(ply).length)return -MATE+ply;this.stopped=true;this.stopReason='hard-ply';throw STOP;}
     if(depth>=0&&extensionsLeft>0&&!this.nullDepth){if(check===null)check=b.inCheck();this.resolvePublicClock(check);if(check){depth++;extensionsLeft--;this.extensions=(this.extensions??0)+1;if(depth===1){const terminal=this.publicNonRepetitionTerminal(ply);if(terminal!==null)return terminal;}}}
+    // Verified public search forbids TT score bounds; leaves only need qsearch.
+    if(depth<=0&&!this.options.ttBounds)return this.qsearch(alpha,beta,ply,0);
     const key=this.options.typedTT?null:b.key(),originalAlpha=alpha,tt=this.options.tt?this.ttGet(key):null;
     // Until full repetition-history context is part of the key, TT scores are
     // ordering hints only. Bounds from another ancestor/history can be unsound.
