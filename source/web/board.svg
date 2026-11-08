@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000" fill="none">
+<g stroke="#775838" stroke-width="2" stroke-linecap="square">
+<rect x="42" y="42" width="816" height="916" stroke-width="3"/>
+<path d="M50 50H850"/>
+<path d="M50 150H850"/>
+<path d="M50 250H850"/>
+<path d="M50 350H850"/>
+<path d="M50 450H850"/>
+<path d="M50 550H850"/>
+<path d="M50 650H850"/>
+<path d="M50 750H850"/>
+<path d="M50 850H850"/>
+<path d="M50 950H850"/>
+<path d="M50 50V950"/>
+<path d="M150 50V450M150 550V950"/>
+<path d="M250 50V450M250 550V950"/>
+<path d="M350 50V450M350 550V950"/>
+<path d="M450 50V450M450 550V950"/>
+<path d="M550 50V450M550 550V950"/>
+<path d="M650 50V450M650 550V950"/>
+<path d="M750 50V450M750 550V950"/>
+<path d="M850 50V950"/>
+<path d="M350 50L550 250M550 50L350 250M350 750L550 950M550 750L350 950"/>
+</g>
+<g stroke="#775838" stroke-width="2" opacity=".85">
+<path d="M141 225V241H125"/>
+<path d="M141 275V259H125"/>
+<path d="M159 225V241H175"/>
+<path d="M159 275V259H175"/>
+<path d="M741 225V241H725"/>
+<path d="M741 275V259H725"/>
+<path d="M759 225V241H775"/>
+<path d="M759 275V259H775"/>
+<path d="M141 725V741H125"/>
+<path d="M141 775V759H125"/>
+<path d="M159 725V741H175"/>
+<path d="M159 775V759H175"/>
+<path d="M741 725V741H725"/>
+<path d="M741 775V759H725"/>
+<path d="M759 725V741H775"/>
+<path d="M759 775V759H775"/>
+<path d="M59 325V341H75"/>
+<path d="M59 375V359H75"/>
+<path d="M241 325V341H225"/>
+<path d="M241 375V359H225"/>
+<path d="M259 325V341H275"/>
+<path d="M259 375V359H275"/>
+<path d="M441 325V341H425"/>
+<path d="M441 375V359H425"/>
+<path d="M459 325V341H475"/>
+<path d="M459 375V359H475"/>
+<path d="M641 325V341H625"/>
+<path d="M641 375V359H625"/>
+<path d="M659 325V341H675"/>
+<path d="M659 375V359H675"/>
+<path d="M841 325V341H825"/>
+<path d="M841 375V359H825"/>
+<path d="M59 625V641H75"/>
+<path d="M59 675V659H75"/>
+<path d="M241 625V641H225"/>
+<path d="M241 675V659H225"/>
+<path d="M259 625V641H275"/>
+<path d="M259 675V659H275"/>
+<path d="M441 625V641H425"/>
+<path d="M441 675V659H425"/>
+<path d="M459 625V641H475"/>
+<path d="M459 675V659H475"/>
+<path d="M641 625V641H625"/>
+<path d="M641 675V659H625"/>
+<path d="M659 625V641H675"/>
+<path d="M659 675V659H675"/>
+<path d="M841 625V641H825"/>
+<path d="M841 675V659H825"/>
+</g>
+<g fill="#775838" font-family="KaiTi, STKaiti, Noto Serif CJK SC, serif" font-size="42" letter-spacing="15" text-anchor="middle"><text x="260" y="515">楚 河</text><text x="650" y="515">漢 界</text></g>
+</svg>
