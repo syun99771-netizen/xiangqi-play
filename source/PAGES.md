@@ -47,3 +47,9 @@ The engine API supports `limits: {mode:'depth', depth:6}` and
 use a shared stop flag from another thread; synchronous searches cannot
 process ordinary messages while running. Existing requests without mode
 retain their former semantics.
+
+Infinite thinking also lists each completed iteration from depth 1 onward,
+with the full legal principal variation in Chinese notation (red/black
+labels), cumulative iteration time and nodes. The currently incomplete
+layer is not listed. Stop keeps the list for review; the next engine turn
+or Restart clears it. Long variations wrap in a bounded scrolling panel.

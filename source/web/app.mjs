@@ -20,6 +20,14 @@ function renderHistory(){
  for(const entry of chineseHistory(game.moves)){if(entry.number!==number){number=entry.number;tr=body.insertRow();tr.insertCell().textContent=String(number);tr.insertCell();tr.insertCell();}tr.cells[entry.side===1?1:2].textContent=entry.text;}
  host.append(table);
 }
+function resetIterations(){$('iteration-list').replaceChildren();$('iterations').hidden=true;}
+function renderIteration(info){
+ const row=document.createElement('li'),heading=document.createElement('strong'),line=document.createElement('p'),meta=document.createElement('small');
+ heading.textContent=`第 ${info.depth} 层`;
+ try{const entries=chineseHistory([...game.moves,...info.pv]).slice(game.moves.length);line.textContent=entries.map(e=>`${e.side===1?'红':'黑'}：${e.text}`).join('　');}catch{line.textContent='走法暂无法显示';}
+ meta.textContent=`${Math.round(info.time)} ms · ${info.nodes.toLocaleString()} 节点`;
+ row.append(heading,line,meta);$('iteration-list').append(row);$('iterations').hidden=false;
+}
 function terminal(){const a=game.verdict();if(!a.terminal)return false;status((a.winner===0?'和棋':a.winner===1?'红方胜':'黑方胜')+' · '+a.reason);return true;}
 function click(s){if(busy||game.board.turn!==player()||terminal())return;const p=game.board.squares[s];if(p*player()>0){selected=selected===s?null:s;render();return;}if(selected===null)return;const m=selected*90+s;if(!game.board.isLegalMove(m)){status('这里不能落子，请选择标记的合法落点。');return;}game.play(m);last=[selected,s];selected=null;render();advance();}
 function fail(message){stop();status('引擎暂不可用：'+message);$('retry').hidden=false;}
@@ -42,7 +50,7 @@ function advance(){
  if(busy||terminal())return;
  if(game.board.turn===player()){status('轮到你了 · '+(game.board.inCheck()?'正在被将军':'请选择棋子'));return;}
  let limits;try{limits=thinkingLimits($('mode').value,$('seconds').value,$('depth').value);}catch(e){fail(e.message);return;}
- busy=true;latest=null;searchStarted=null;$('stats').textContent='等待搜索开始…';status('引擎正在思考…');$('retry').hidden=true;$('stop').hidden=false;
+ resetIterations();busy=true;latest=null;searchStarted=null;$('stats').textContent='等待搜索开始…';status('引擎正在思考…');$('retry').hidden=true;$('stop').hidden=false;
  const id=++generation;
  if(!worker)worker=new Worker('./engine-worker.mjs',{type:'module'});worker.onerror=e=>{if(id===generation)fail(e.message||'Worker 加载失败');};
  const searchReady=()=>{
@@ -56,7 +64,7 @@ function advance(){
    else{$('model-loading').hidden=false;$('model-progress').removeAttribute('value');const labels={download:'正在下载模型',verify:'下载完成，正在校验模型…',parse:'校验通过，正在解析模型…'};$('model-stage').textContent=labels[data.stage]||'正在准备模型…';status('正在准备引擎…');if(data.stage!=='download')$('model-bytes').textContent='';}return;
   }
   if(data.type==='model-progress'){$('model-loading').hidden=false;const p=$('model-progress');if(data.total===null){p.removeAttribute('value');}else{p.max=data.total;p.value=data.loaded;}$('model-bytes').textContent=progressLabel(data);return;}
-  if(data.type==='info'){const snapshot=completedResult(data.info);if(snapshot&&(!latest||snapshot.depth>latest.depth)){latest=snapshot;$('stats').textContent=statsLabel(latest,searchStarted===null?latest.time:performance.now()-searchStarted);}return;}
+  if(data.type==='info'){const snapshot=completedResult(data.info);if(snapshot&&(!latest||snapshot.depth>latest.depth)){latest=snapshot;if(limits.mode==='infinite')renderIteration(snapshot);$('stats').textContent=statsLabel(latest,searchStarted===null?latest.time:performance.now()-searchStarted);}return;}
   if(data.type==='error'){fail(data.error);return;}
   if(data.type==='result'){
    const r=data.result;
@@ -71,6 +79,6 @@ function settings(){
  const mode=$('mode').value;$('time-setting').hidden=mode!=='time';$('depth-setting').hidden=mode!=='depth';
  $('mode-help').textContent=(mode==='time'?'0.1–60 秒。':mode==='depth'?'1–32 层，不限时间；高深度可能耗时很久。':'不限时间，点击“停止并走棋”采用已完成最深层结果。')+'设置下一步生效。首次加载不计入思考时间。';
 }
-function restart(){stop();game=new Game();selected=null;last=null;$('retry').hidden=true;$('stats').textContent='点击棋子，再点击落点。';render();advance();}
+function restart(){stop();resetIterations();game=new Game();selected=null;last=null;$('retry').hidden=true;$('stats').textContent='点击棋子，再点击落点。';render();advance();}
 $('mode').onchange=settings;$('stop').onclick=stopAndPlay;settings();$('restart').onclick=restart;$('side').onchange=restart;$('retry').onclick=advance;restart();
 fetch('./version.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(v=>{$('version').textContent=readableVersion(v);}).catch(()=>{$('version').textContent='版本信息暂不可用';});
