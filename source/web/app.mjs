@@ -28,13 +28,13 @@ function finish(result){
  try{
   if(!result.move){if(!terminal()){status('尚无完整搜索结果，未落子。请继续思考或重新开始。');$('retry').hidden=false;}return;}
   const from=(9-Number(result.move[1]))*9+result.move.charCodeAt(0)-97,to=(9-Number(result.move[3]))*9+result.move.charCodeAt(2)-97;
-  game.play(result.move);last=[from,to];$('stats').textContent=statsLabel(result)+(result.depth===0?' · 时间不足，使用合法备用着法':'');
+  game.play(result.move);last=[from,to];$('stats').textContent=statsLabel(result,result.stoppedElapsed??null)+(result.depth===0?' · 时间不足，使用合法备用着法':'');
   render();if(!terminal())status('轮到你了'+(game.board.inCheck()?' · 正在被将军':''));
  }catch(e){fail(e.message);}
 }
 function stopAndPlay(){
  if(!busy)return;
- const result=latest;stop();
+ const result=latest?{...latest,stoppedElapsed:searchStarted===null?latest.time:performance.now()-searchStarted}:null;stop();
  if(result)finish(result);
  else{status('已停止，尚未完成第一层，未落子。可重试引擎。');$('retry').hidden=false;}
 }

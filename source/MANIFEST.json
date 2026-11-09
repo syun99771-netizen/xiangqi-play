@@ -361,8 +361,8 @@
       "sha256": "3073ea6b4b9d8c3480ac717198318b8452ae0c73c339e054fa342891480f09da"
     },
     "web/app.mjs": {
-      "bytes": 7838,
-      "sha256": "ccef0c5556cb64125d90d6c07ecf2080229559d2ba30823db4e88856e6d9be55"
+      "bytes": 7963,
+      "sha256": "be7bc706d1f016c7df84d2e73b06208fc095d818d567ab0f3c4ad436cb4a3dc0"
     },
     "web/board.svg": {
       "bytes": 2474,
