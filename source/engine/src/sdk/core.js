@@ -52,8 +52,21 @@ export function validateRequest(input){
  if('ttCapacity' in options)integer(options.ttCapacity,256,1<<20,'ttCapacity');
  const rules=getRuleProfile(options.ruleProfile??'cca2020');options.ruleProfile=rules.id;
  if('repetitionPolicy' in options&&!['legacy','verified-check-terminal'].includes(options.repetitionPolicy))throw Error('Invalid repetitionPolicy');
- const raw=record(input.limits??{},'limits',['nodes','movetime','depth']),limits={};
+ const raw=record(input.limits??{},'limits',['nodes','movetime','depth','mode']),limits={};
  for(const key of ['nodes','movetime','depth'])if(key in raw)limits[key]=integer(raw[key],1,SDK_LIMITS[key],key);
+ if('mode' in raw){
+  if(!['time','depth','infinite'].includes(raw.mode))throw Error('Invalid limits mode');
+  if(raw.mode==='time'&&limits.movetime===undefined)throw Error('Time mode requires movetime');
+  if(raw.mode==='depth'){
+   if(limits.depth===undefined)throw Error('Depth mode requires depth');
+   if('movetime' in raw||'nodes' in raw)throw Error('Depth mode does not accept movetime or nodes');
+   limits.movetime=Infinity;
+  }
+  if(raw.mode==='infinite'){
+   if(['depth','movetime','nodes'].some(k=>k in raw))throw Error('Infinite mode does not accept depth, movetime or nodes');
+   limits.depth=Infinity;limits.movetime=Infinity;
+  }
+ }
  // Fixed node budgets are not silently cut short by the core's default one second.
  if(limits.nodes!==undefined&&limits.movetime===undefined)limits.movetime=Infinity;
  if(input.historyComplete!==undefined&&typeof input.historyComplete!=='boolean')throw Error('historyComplete must be boolean');

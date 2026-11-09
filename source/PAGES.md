@@ -22,3 +22,28 @@ python3 -m http.server 8000 --directory ../pages-dist
 浏览器打开 http://localhost:8000 。Worker、ES modules 和 crypto.subtle 需要 HTTP localhost 或 HTTPS，不能直接双击 HTML。
 
 网页支持红/黑执色、0.1–60 秒搜索、合法落点提示、重开、失败重试、棋谱和搜索深度显示。规则沿用 SDK，不宣称完整 CCA2020 认证，也不将搜索深度冒充棋力等级。
+
+## Thinking controls
+
+The page offers fixed time (0.1–60 s), fixed depth (1–32), and infinite
+thinking. Settings apply to the next engine turn. Depth mode has no time
+budget. Infinite mode has no time/node/depth budget, though the engine can
+finish early on mate or its existing safety conditions; in that case the
+page holds the result until Stop and Play is clicked.
+
+Completed depth and nodes are streamed after each completed iteration;
+while searching, the node figure is explicitly the last completed layer,
+not a fabricated live counter. Elapsed search time updates independently
+and excludes model loading. Stop and Play terminates the browser worker
+and plays the deepest completed snapshot received by the page. If no layer
+has completed, it makes no move and offers Retry. Restart/side changes
+invalidate old messages. Stop discards that worker's in-memory model, so
+Retry/next search loads through the browser HTTP cache again. Browser
+background-tab throttling can delay UI updates. No cross-origin-isolation
+or SharedArrayBuffer headers are needed for the browser stop operation.
+
+The engine API supports `limits: {mode:'depth', depth:6}` and
+`limits: {mode:'infinite'}` in addition to time mode. For native callers,
+use a shared stop flag from another thread; synchronous searches cannot
+process ordinary messages while running. Existing requests without mode
+retain their former semantics.

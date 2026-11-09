@@ -24,9 +24,11 @@
     },
     {
       "path": "engine/experimental/cc0-portable-public-b562-v2/profile.mjs",
-      "bytes": 4102,
-      "sha256": "a6c0c26cfd30c2c0f5a14c65b4af29d45e328a429a89d05651b3ca1df65738be",
-      "transformation": "none"
+      "bytes": 4179,
+      "sha256": "5699902c009c12b40360040e0bb06a23d136e3fec8ee14d3f9d9b12fc717f54b",
+      "transformation": "2026-11-09: explicit fixed-depth and infinite search budget modes; preserve legacy request semantics",
+      "baselineSha256": "a6c0c26cfd30c2c0f5a14c65b4af29d45e328a429a89d05651b3ca1df65738be",
+      "baselineBytes": 4102
     },
     {
       "path": "engine/experimental/cc0-static-eval-cache-v1/cache.mjs",
@@ -193,9 +195,11 @@
     },
     {
       "path": "engine/src/sdk/core.js",
-      "bytes": 8839,
-      "sha256": "c9bf4eeed968e35f95637075d9ee80c0b7550a5a7c6e7b85c81fcea8c2375829",
-      "transformation": "none"
+      "bytes": 9495,
+      "sha256": "8329bbac38936941ecfd9b9e682d0e166e2ff12abcff69e73cbc9564029317b0",
+      "transformation": "2026-11-09: explicit fixed-depth and infinite search budget modes; preserve legacy request semantics",
+      "baselineSha256": "c9bf4eeed968e35f95637075d9ee80c0b7550a5a7c6e7b85c81fcea8c2375829",
+      "baselineBytes": 8839
     },
     {
       "path": "engine/src/sdk/model-codec.js",

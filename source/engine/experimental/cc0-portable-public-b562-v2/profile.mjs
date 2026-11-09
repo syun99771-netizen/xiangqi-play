@@ -61,9 +61,9 @@ export function benchmarkRequest(input) {
   }
   if (!normalized.historyComplete) throw new Error('Benchmark profile requires complete chronological history');
   const limits = copyRecord(request.limits ?? {});
-  if (!Object.hasOwn(limits, 'nodes') && !Object.hasOwn(limits, 'movetime'))
+  if (!['depth','infinite'].includes(limits.mode) && !Object.hasOwn(limits, 'nodes') && !Object.hasOwn(limits, 'movetime'))
     throw new Error('Benchmark profile requires an explicit nodes or movetime budget');
-  if (!Object.hasOwn(limits, 'depth')) limits.depth = BENCHMARK_PROFILE.defaultDepthCap;
+  if (limits.mode !== 'infinite' && !Object.hasOwn(limits, 'depth')) limits.depth = BENCHMARK_PROFILE.defaultDepthCap;
   return {...request, moves: normalized.moves, historyComplete: true,
     options: {...BENCHMARK_SEARCH_OPTIONS}, limits};
 }

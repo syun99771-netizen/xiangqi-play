@@ -10,7 +10,7 @@ const reference=createReference({
 self.onmessage=async({data})=>{
  if(busy){self.postMessage({type:'error',id:data.id,error:'引擎正在处理上一请求'});return;}
  busy=true;currentId=data.id;
- try{const result=await reference.search(data.request);self.postMessage({type:'result',id:data.id,result});}
+ try{if(reference.modelLoaded)phase('ready');const result=await reference.search(data.request,{onInfo:info=>self.postMessage({type:'info',id:data.id,info})});self.postMessage({type:'result',id:data.id,result});}
  catch(e){self.postMessage({type:'error',id:data.id,error:String(e.message||e)});}
  finally{busy=false;currentId=null;}
 };
