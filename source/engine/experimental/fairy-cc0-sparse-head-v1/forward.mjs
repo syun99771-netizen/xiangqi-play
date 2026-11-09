@@ -71,53 +71,47 @@ function affine(input, layer, outputs, realInputSize, paddedInputSize) {
 }
 
 function transposeFirstHead(layer) {
-  // The file is row-major. This private, one-time transpose puts all sixteen
-  // output weights for one input together. Neither layout is publicly exposed.
-  const weightByInput = new Int8Array(FORMAT.inputSize * FORMAT.hidden1Size);
+  // Pair adjacent OUTPUT lanes, not input channels. Private decoded values;
+  // replaces the Int8 transpose rather than retaining a second weight table.
+  const weightByInput = new Float64Array(FORMAT.inputSize * FORMAT.hidden1Size / 2);
   for (let col = 0; col < FORMAT.inputSize; col++) {
-    for (let row = 0; row < FORMAT.hidden1Size; row++) {
-      weightByInput[col * FORMAT.hidden1Size + row] = layer.weight[row * FORMAT.inputSize + col];
+    for (let pair = 0; pair < FORMAT.hidden1Size / 2; pair++) {
+      const row=pair*2;
+      weightByInput[col*8+pair]=(layer.weight[row*FORMAT.inputSize+col]+128)
+        +67108864*(layer.weight[(row+1)*FORMAT.inputSize+col]+128);
     }
   }
   return { bias: layer.bias, weightByInput };
 }
 
 function sparseFirstAffine(input, layer) {
-  const bias = layer.bias, weight = layer.weightByInput;
-  let v0 = bias[0], v1 = bias[1], v2 = bias[2], v3 = bias[3];
-  let v4 = bias[4], v5 = bias[5], v6 = bias[6], v7 = bias[7];
-  let v8 = bias[8], v9 = bias[9], v10 = bias[10], v11 = bias[11];
-  let v12 = bias[12], v13 = bias[13], v14 = bias[14], v15 = bias[15];
-  // All nonzero transformed inputs contribute to every lane, in exactly the
-  // same ascending input order as the serialized row-major dot products.
-  // Accumulate in exact JS integers and apply i32 wrap only at final storage,
-  // just like affine(). Bounds: an i32 bias plus <= 1024 * 128 * 127.
-  for (let col = 0; col < FORMAT.inputSize; col++) {
-    const value = input[col];
-    if (value === 0) continue;
-    const start = col * FORMAT.hidden1Size;
-    v0 += weight[start] * value;
-    v1 += weight[start + 1] * value;
-    v2 += weight[start + 2] * value;
-    v3 += weight[start + 3] * value;
-    v4 += weight[start + 4] * value;
-    v5 += weight[start + 5] * value;
-    v6 += weight[start + 6] * value;
-    v7 += weight[start + 7] * value;
-    v8 += weight[start + 8] * value;
-    v9 += weight[start + 9] * value;
-    v10 += weight[start + 10] * value;
-    v11 += weight[start + 11] * value;
-    v12 += weight[start + 12] * value;
-    v13 += weight[start + 13] * value;
-    v14 += weight[start + 14] * value;
-    v15 += weight[start + 15] * value;
+  const bias=layer.bias,weight=layer.weightByInput;
+  let v0=0,v1=0,v2=0,v3=0,v4=0,v5=0,v6=0,v7=0,sumInputs=0;
+  // Each packed lane <=1024*255*127<2^26; every product and partial sum
+  // is an exactly representable binary64 integer. Bias stays OUTSIDE packing.
+  for(let col=0;col<FORMAT.inputSize;col++) {
+    const value=input[col];
+    if(value===0)continue;
+    sumInputs+=value;
+    const start=col*8;
+    v0+=weight[start]*value;
+    v1+=weight[start+1]*value;
+    v2+=weight[start+2]*value;
+    v3+=weight[start+3]*value;
+    v4+=weight[start+4]*value;
+    v5+=weight[start+5]*value;
+    v6+=weight[start+6]*value;
+    v7+=weight[start+7]*value;
   }
-  const output = new Int32Array(FORMAT.hidden1Size);
-  output[0] = v0 | 0; output[1] = v1 | 0; output[2] = v2 | 0; output[3] = v3 | 0;
-  output[4] = v4 | 0; output[5] = v5 | 0; output[6] = v6 | 0; output[7] = v7 | 0;
-  output[8] = v8 | 0; output[9] = v9 | 0; output[10] = v10 | 0; output[11] = v11 | 0;
-  output[12] = v12 | 0; output[13] = v13 | 0; output[14] = v14 | 0; output[15] = v15 | 0;
+  const output=new Int32Array(FORMAT.hidden1Size),correction=128*sumInputs;
+  output[0]=(v0%67108864-correction+bias[0])|0;output[1]=(Math.floor(v0/67108864)-correction+bias[1])|0;
+  output[2]=(v1%67108864-correction+bias[2])|0;output[3]=(Math.floor(v1/67108864)-correction+bias[3])|0;
+  output[4]=(v2%67108864-correction+bias[4])|0;output[5]=(Math.floor(v2/67108864)-correction+bias[5])|0;
+  output[6]=(v3%67108864-correction+bias[6])|0;output[7]=(Math.floor(v3/67108864)-correction+bias[7])|0;
+  output[8]=(v4%67108864-correction+bias[8])|0;output[9]=(Math.floor(v4/67108864)-correction+bias[9])|0;
+  output[10]=(v5%67108864-correction+bias[10])|0;output[11]=(Math.floor(v5/67108864)-correction+bias[11])|0;
+  output[12]=(v6%67108864-correction+bias[12])|0;output[13]=(Math.floor(v6/67108864)-correction+bias[13])|0;
+  output[14]=(v7%67108864-correction+bias[14])|0;output[15]=(Math.floor(v7/67108864)-correction+bias[15])|0;
   return output;
 }
 

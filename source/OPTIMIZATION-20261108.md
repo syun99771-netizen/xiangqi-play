@@ -240,3 +240,57 @@ opportunity gates. Forward move-geometry tables failed their resource gate
 905 equal-time match11W12L1D likewise did not establish stronger play. The present
 change preserves fixed-node search results; speed evidence must not replace
 playing-strength evidence.
+
+## Exact Float64 output-paired first head (1.0.2)
+
+Baseline is publishede173/1.0.1, including its existing paired FT delta lanes.
+Only transposeFirstHead and sparseFirstAffine change: input-major adjacent
+OUTPUT rows are encoded with fixedQ=2^26. Eight explicit Float64 accumulators
+preserve ascending input order and zero-input skipping; every nonzero input
+contributes to the common offset correction even when packed weights are zero.
+Signed biases are added only after unpacking, then the original Int32 wrap.
+Each unsigned lane<=1024*255*127=33,162,240<Q and every packed product/partial
+sum<2^52, so binary64 integer arithmetic is exact. No input-pair Math.imul dot,
+input transform fusion, search change, model edit or parameter sweep is involved.
+
+The private Float64 tables replace rather than supplement the old Int8 transpose:
+512KiB versus128KiB across8stacks, **net+384KiB per parsed model**. Diagnostics
+remain owned arrays; original FT/full refresh/PSQT/transactions are unchanged.
+Original source attribution, GPL license, C07 identity and the complete prior
+forward hash chain remain in provenance.
+
+| Metric, candidate/e173 baseline | Screen | Independent-process confirmation |
+| --- | ---: | ---: |
+| Aggregate Search CPU |0.8443202254|0.8460435007|
+| Median root CPU ratio |0.8412463|0.8402070|
+| Faster roots |16/16|16/16|
+| Worst root median |0.8956516|0.9153968|
+
+Each192-call process retained exact result/iterations/evaluation-stream/cache/
+PV/restored-state signatures;195frozen input pins were reverified unchanged.
+Both pass aggregate/rootmedian<=.98,>=12faster,worst<=1.05. This is
+**15.4–15.6% sampled Node Search CPU reduction relative toe173**, not cumulative
+with earlier percentages and not an Elo/browser claim. Fixed exposed roots and
+independent processes do not establish independent playing strength. This
+version's separate direct200ms Node throughput diagnostic completed160calls/
+80pairs, relative to the samee173 baseline on16exposed roots, without sample
+rejection or outcome-dependent reruns:
+
+- Total nodes1,558,103→1,901,248, ratio1.22023255 (+22.023255%).
+- Median paired node ratio1.217892, median root ratio1.212113;16/16roots gained.
+- Completed depth14pairs+1,66same,0lower.
+- Candidate Search wall200.061886–201.191870ms, whole-call201.157102–208.035785ms.
+- Every call passed legal move/PV/history/state restoration checks. Measurement
+  pins were verified unchanged and its pre-report manifest preserved separately.
+
+This is a fixed-time throughput result, not a new match or strength/Elo claim;
+no browser extrapolation or cumulative percentage addition is justified.
+
+Numerical admission:80actual-kernel fixtures/1280output lanes against independent
+row-major BigInt oracle, including1024input extremes, signed8endpoints,
+asymmetric random weights and Int32bias boundaries. All839original full/inc
+cases match in diagnostics/raw/diagnostics modes, across all material/king
+buckets, arbitrary jumps, overflow and invalid rollback. Portable tests need no
+external experimental directory/model and retain the existing FT/transaction
+regressions. Historical failed packed-input/head-fusion proposals remain closed;
+this entry records only the distinct output-pair mechanism.

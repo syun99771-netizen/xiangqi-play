@@ -48,9 +48,9 @@
     },
     {
       "path": "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs",
-      "bytes": 16722,
-      "sha256": "63362f520031d6eddab2997b736c1d1c3a47bb3fe7cacc64377f8f7b51d8d83b",
-      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback)",
+      "bytes": 16618,
+      "sha256": "d8e1ea789b4aba984b262cd0bc0925f1c942f294b56b880a87a056a449a1d3ca",
+      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26)",
       "baselineSha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0",
       "baselineBytes": 13871,
       "priorVersions": [
@@ -63,6 +63,11 @@
           "bytes": 15248,
           "sha256": "6c47f65342851ecda95ad7024e62e637af411eb568e368f511ca40f33ac60837",
           "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged)"
+        },
+        {
+          "bytes": 16722,
+          "sha256": "63362f520031d6eddab2997b736c1d1c3a47bb3fe7cacc64377f8f7b51d8d83b",
+          "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback)"
         }
       ]
     },
