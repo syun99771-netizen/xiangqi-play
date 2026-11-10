@@ -24,9 +24,9 @@ test('every engine module matches provenance and explicitly recorded updates', a
       assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged)');
     } else if(item.path==='engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs') {
       assert.equal(item.baselineSha256,'f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0');
-      assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged)');
-      assert.equal(item.priorVersions.at(-1).sha256,'d8e1ea789b4aba984b262cd0bc0925f1c942f294b56b880a87a056a449a1d3ca');
-      assert.equal(item.priorVersions.at(-1).bytes,16618);
+      assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged); 2026-11-10: reuse exact paired-lane kernel for aligned private-session refresh; scalar full-refresh and unaligned fallback unchanged');
+      assert.equal(item.priorVersions.at(-1).sha256,'a1dbfd1c762d56b71354ac46e80469c58342f2b18d9423ed4b4e14a1c6049c30');
+      assert.equal(item.priorVersions.at(-1).bytes,17150);
     } else if(['engine/src/sdk/core.js','engine/experimental/cc0-portable-public-b562-v2/profile.mjs'].includes(item.path)){assert.equal(item.transformation,'2026-11-09: explicit fixed-depth and infinite search budget modes; preserve legacy request semantics');assert.match(item.baselineSha256,/^[a-f0-9]{64}$/);} else assert.equal(item.transformation,'none');
   }
 });

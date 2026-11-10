@@ -40,6 +40,12 @@ function refresh(parameters, indices, storage = accumulatorStorage()) {
   const {accumulation, psqt} = storage;
   accumulation.set(parameters.ftBias);
   psqt.fill(0);
+  // Session-owned aligned aliases reuse the exact independent mod16 kernel.
+  // Public full-refresh and unaligned fixtures retain the scalar oracle below.
+  if (storage.accumulationWords && parameters.ftWeightWords) {
+    for (const index of indices) applyColumn(parameters, storage, index, 1);
+    return { accumulation, psqt };
+  }
   for (const index of indices) {
     const start = index * FORMAT.accumulatorSize;
     for (let i = 0; i < FORMAT.accumulatorSize; i++) {
