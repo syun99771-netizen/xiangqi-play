@@ -21,7 +21,7 @@ test('every engine module matches provenance and explicitly recorded updates', a
     assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256,item.path);
     if(item.path==='engine/src/search-public-b562.js') {
       assert.equal(item.baselineSha256,'cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7');
-      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe');
+      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged)');
     } else if(item.path==='engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs') {
       assert.equal(item.baselineSha256,'f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0');
       assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26)');

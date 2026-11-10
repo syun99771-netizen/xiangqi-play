@@ -192,7 +192,8 @@ export class Search {
   }
   qsearch(alpha,beta,ply,qply){this.selDepth=Math.max(this.selDepth??0,ply);this.tick();const b=this.board;const check=b.inCheck();this.resolvePublicClock(check);// Stand-pat is forbidden in check; avoid an unused evaluator/cache update.
     const stand=check?0:this.evaluate(b,this.weights);
-    const moves=this.order(this.legalMoves(ply,{capturesOnly:!check}),null,ply);
+    let moves=this.legalMoves(ply,{capturesOnly:!check});
+    if(this.options.typedMoveBuffers)moves=this.order(moves,null,ply);
     // Public repetition precedes clock, material and generic no-legal loss.
     if(this.options.qsearchRepetition&&!this.nullDepth){const repeated=this.repetitionValue(ply);if(repeated!==null){this.totalCycleGuardReturns=(this.totalCycleGuardReturns??0)+1;return repeated;}}
     const terminal=this.publicNonRepetitionTerminal(ply);if(terminal!==null)return terminal;
@@ -202,6 +203,7 @@ export class Search {
     if(!moves.length)return alpha;
     if(ply>=100){this.stopped=true;this.stopReason='hard-ply';throw STOP;}
     if(qply>=12&&!check)return alpha;
+    if(!this.options.typedMoveBuffers)moves=this.order(moves,null,ply);
     const track=this.options.qsearchRepetition&&!this.nullDepth;
     if(track)this.pushCheckState(check);
     try{for(const m of moves){const u=this.makeSearchMove(m);let s;try{s=-this.qsearch(-beta,-alpha,ply+1,qply+1);}finally{this.unmakeSearchMove(u);}if(s>=beta)return s;if(s>alpha)alpha=s;}return alpha;}

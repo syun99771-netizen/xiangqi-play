@@ -221,11 +221,18 @@
     },
     {
       "path": "engine/src/search-public-b562.js",
-      "bytes": 25529,
-      "sha256": "a94dc100509976b062a1644a55a352dc67e3664b4016c2d350f596c99f6cc25c",
-      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe",
+      "bytes": 25649,
+      "sha256": "f46de13f04ea1223d6f20d61a14999c5e85cad7b1273533c0af13e0b71448802",
+      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged)",
       "baselineSha256": "cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7",
-      "previousSha256": "d378f466fb7bfae97b66b8828138cdb7ed91b33f035e6039e45c54d6717384ae"
+      "previousSha256": "d378f466fb7bfae97b66b8828138cdb7ed91b33f035e6039e45c54d6717384ae",
+      "priorVersions": [
+        {
+          "bytes": 25529,
+          "sha256": "a94dc100509976b062a1644a55a352dc67e3664b4016c2d350f596c99f6cc25c",
+          "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe"
+        }
+      ]
     },
     {
       "path": "engine/src/search.js",

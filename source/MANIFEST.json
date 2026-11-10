@@ -169,8 +169,8 @@
       "sha256": "d8c5ad1b028867b03f4a8d1a1d8bcf210d3d3170a4668379193fcaad83502dc4"
     },
     "engine/src/search-public-b562.js": {
-      "bytes": 25529,
-      "sha256": "a94dc100509976b062a1644a55a352dc67e3664b4016c2d350f596c99f6cc25c"
+      "bytes": 25649,
+      "sha256": "f46de13f04ea1223d6f20d61a14999c5e85cad7b1273533c0af13e0b71448802"
     },
     "engine/src/search.js": {
       "bytes": 19852,
@@ -213,8 +213,8 @@
       "sha256": "242da367a1c12b1ffc2c68a60a3c9327b1838512fd01cb416103df4dc2d318bb"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 10148,
-      "sha256": "4e31fe3607f7bd582d979e58df6f2180c2178656c79b88754814ec0c7a3f02a0"
+      "bytes": 10551,
+      "sha256": "07d12552429f9a33e52db8f2763afb5021f593fb9e0d5d0d69b347aabab8bf34"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
@@ -285,8 +285,8 @@
       "sha256": "0181ef367efe2a7882a84ee59a820540fcf94f1240b8231e64cfbd56040cb2e6"
     },
     "tests/package.test.mjs": {
-      "bytes": 3583,
-      "sha256": "dd2c09cdf866fd593bda944ef0be15b51450bed7011498e6fabde9ec52da067d"
+      "bytes": 3684,
+      "sha256": "8f40962824b3ff4e6a182e9996cac3472a0934f30a041e8e6433aa431a3e3999"
     },
     "tests/paired-ft-lanes.test.mjs": {
       "bytes": 3737,
@@ -407,6 +407,10 @@
     "worker-demo.mjs": {
       "bytes": 971,
       "sha256": "79e02aff4f9ba2f2c50718dacc6d2c6260833c0948fb2f3bf7e5df7f7f81fc3f"
+    },
+    "tests/qsearch-deferred-order.test.mjs": {
+      "bytes": 2551,
+      "sha256": "5950eb1693540560d760122192ae41293e767c3f4e7753ab733faad91f09b926"
     }
   }
 }
