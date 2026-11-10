@@ -55,8 +55,7 @@ function refresh(parameters, indices, storage = accumulatorStorage()) {
   return { accumulation, psqt };
 }
 
-function affine(input, layer, outputs, realInputSize, paddedInputSize) {
-  const output = new Int32Array(outputs);
+function affine(input, layer, outputs, realInputSize, paddedInputSize, output = new Int32Array(outputs)) {
   for (let row = 0; row < outputs; row++) {
     let value = layer.bias[row];
     const start = row * paddedInputSize;
@@ -84,7 +83,7 @@ function transposeFirstHead(layer) {
   return { bias: layer.bias, weightByInput };
 }
 
-function sparseFirstAffine(input, layer) {
+function sparseFirstAffine(input, layer, output = new Int32Array(FORMAT.hidden1Size)) {
   const bias=layer.bias,weight=layer.weightByInput;
   let v0=0,v1=0,v2=0,v3=0,v4=0,v5=0,v6=0,v7=0,sumInputs=0;
   // Each packed lane <=1024*255*127<2^26; every product and partial sum
@@ -103,7 +102,7 @@ function sparseFirstAffine(input, layer) {
     v6+=weight[start+6]*value;
     v7+=weight[start+7]*value;
   }
-  const output=new Int32Array(FORMAT.hidden1Size),correction=128*sumInputs;
+  const correction=128*sumInputs;
   output[0]=(v0%67108864-correction+bias[0])|0;output[1]=(Math.floor(v0/67108864)-correction+bias[1])|0;
   output[2]=(v1%67108864-correction+bias[2])|0;output[3]=(Math.floor(v1/67108864)-correction+bias[3])|0;
   output[4]=(v2%67108864-correction+bias[4])|0;output[5]=(Math.floor(v2/67108864)-correction+bias[5])|0;
@@ -115,8 +114,7 @@ function sparseFirstAffine(input, layer) {
   return output;
 }
 
-function activation(input) {
-  const result = new Uint8Array(input.length);
+function activation(input, result = new Uint8Array(input.length)) {
   for (let i = 0; i < input.length; i++) result[i] = clip(input[i] >> FORMAT.weightScaleBits);
   return result;
 }
@@ -142,22 +140,26 @@ function checkedOptions(options, sorted = false) {
   return { red, black, pieceCount, sideToMove, diagnostics };
 }
 
-function evaluateStates(parameters, options, redState, blackState) {
+function inferenceStorage() {
+  return { transformed: new Uint8Array(FORMAT.inputSize), hidden1Affine: new Int32Array(FORMAT.hidden1Size), hidden1: new Uint8Array(FORMAT.hidden1Size), hidden2Affine: new Int32Array(FORMAT.hidden2Size), hidden2: new Uint8Array(FORMAT.hidden2Size), output: new Int32Array(1) };
+}
+
+function evaluateStates(parameters, options, redState, blackState, workspace) {
   const { pieceCount, sideToMove, diagnostics } = options;
     const stm = sideToMove === 'red' ? redState : blackState;
     const opp = sideToMove === 'red' ? blackState : redState;
-    const transformed = new Uint8Array(FORMAT.inputSize);
+    const transformed = workspace?.transformed ?? new Uint8Array(FORMAT.inputSize);
     for (let i = 0; i < FORMAT.accumulatorSize; i++) {
       transformed[i] = clip(stm.accumulation[i]);
       transformed[i + FORMAT.accumulatorSize] = clip(opp.accumulation[i]);
     }
     const bucket = Math.min(Math.floor((pieceCount - 1) / 4), FORMAT.stacks - 1);
     const stack = parameters.stacks[bucket];
-    const hidden1Affine = sparseFirstAffine(transformed, stack[0]);
-    const hidden1 = activation(hidden1Affine);
-    const hidden2Affine = affine(hidden1, stack[1], FORMAT.hidden2Size, FORMAT.hidden1Size, FORMAT.hidden2PaddedInputSize);
-    const hidden2 = activation(hidden2Affine);
-    const denseOutput = affine(hidden2, stack[2], 1, FORMAT.hidden2Size, FORMAT.hidden2Size)[0];
+    const hidden1Affine = sparseFirstAffine(transformed, stack[0], workspace?.hidden1Affine);
+    const hidden1 = activation(hidden1Affine, workspace?.hidden1);
+    const hidden2Affine = affine(hidden1, stack[1], FORMAT.hidden2Size, FORMAT.hidden1Size, FORMAT.hidden2PaddedInputSize, workspace?.hidden2Affine);
+    const hidden2 = activation(hidden2Affine, workspace?.hidden2);
+    const denseOutput = affine(hidden2, stack[2], 1, FORMAT.hidden2Size, FORMAT.hidden2Size, workspace?.output)[0];
     const psqtDifference = (stm.psqt[bucket] - opp.psqt[bucket]) | 0;
     const psqtTerm = truncDiv(psqtDifference, 2);
     const combined = (psqtTerm + denseOutput) | 0;
@@ -266,6 +268,7 @@ function transition(parameters, previous, indices, scratch) {
 
 function createSession(parameters) {
   let redState = null, blackState = null, busy = false;
+  const workspace = inferenceStorage();
   // Two private banks per perspective. Scratch is never an active state or a
   // diagnostic result; failed preparation/inference leaves active banks intact.
   let redActive = accumulatorStorage(), redScratch = accumulatorStorage();
@@ -285,7 +288,7 @@ function createSession(parameters) {
       const checked = checkedOptions(options, true);
       const nextRed = transition(parameters, redState, checked.red, redScratch);
       const nextBlack = transition(parameters, blackState, checked.black, blackScratch);
-      const result = evaluateStates(parameters, checked, nextRed, nextBlack);
+      const result = evaluateStates(parameters, checked, nextRed, nextBlack, checked.diagnostics ? undefined : workspace);
       // Commit only after BOTH perspectives and diagnostics/inference succeed.
       // An unchanged perspective still uses its active bank: do not swap it.
       if (nextRed.accumulation === redScratch.accumulation) {

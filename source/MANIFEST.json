@@ -69,8 +69,8 @@
       "sha256": "3b3fde890761ad6fa9e6d1ec746d85decba5d6f378a4867744acf82a92aae775"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs": {
-      "bytes": 16618,
-      "sha256": "d8e1ea789b4aba984b262cd0bc0925f1c942f294b56b880a87a056a449a1d3ca"
+      "bytes": 17150,
+      "sha256": "a1dbfd1c762d56b71354ac46e80469c58342f2b18d9423ed4b4e14a1c6049c30"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs": {
       "bytes": 4069,
@@ -213,8 +213,8 @@
       "sha256": "242da367a1c12b1ffc2c68a60a3c9327b1838512fd01cb416103df4dc2d318bb"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 10551,
-      "sha256": "07d12552429f9a33e52db8f2763afb5021f593fb9e0d5d0d69b347aabab8bf34"
+      "bytes": 11172,
+      "sha256": "2dab28f7e643d2bc6d1c9fc04307002a3e0a19af256744f52b20df53340bbdbb"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
@@ -285,8 +285,8 @@
       "sha256": "0181ef367efe2a7882a84ee59a820540fcf94f1240b8231e64cfbd56040cb2e6"
     },
     "tests/package.test.mjs": {
-      "bytes": 3684,
-      "sha256": "8f40962824b3ff4e6a182e9996cac3472a0934f30a041e8e6433aa431a3e3999"
+      "bytes": 3796,
+      "sha256": "997c59948514771f93b900c0ef6c1c1ad50c4c09de9cb945e76f71b046dcd95a"
     },
     "tests/paired-ft-lanes.test.mjs": {
       "bytes": 3737,
@@ -411,6 +411,10 @@
     "tests/qsearch-deferred-order.test.mjs": {
       "bytes": 2551,
       "sha256": "5950eb1693540560d760122192ae41293e767c3f4e7753ab733faad91f09b926"
+    },
+    "tests/inference-workspace.test.mjs": {
+      "bytes": 3870,
+      "sha256": "b95d2e2e3300572b56554a18ea6afbd54f534d30d702d2b5a57b06cf92fe3ebf"
     }
   }
 }

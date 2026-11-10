@@ -50,9 +50,9 @@
     },
     {
       "path": "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs",
-      "bytes": 16618,
-      "sha256": "d8e1ea789b4aba984b262cd0bc0925f1c942f294b56b880a87a056a449a1d3ca",
-      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26)",
+      "bytes": 17150,
+      "sha256": "a1dbfd1c762d56b71354ac46e80469c58342f2b18d9423ed4b4e14a1c6049c30",
+      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged)",
       "baselineSha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0",
       "baselineBytes": 13871,
       "priorVersions": [
@@ -70,6 +70,11 @@
           "bytes": 16722,
           "sha256": "63362f520031d6eddab2997b736c1d1c3a47bb3fe7cacc64377f8f7b51d8d83b",
           "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback)"
+        },
+        {
+          "sha256": "d8e1ea789b4aba984b262cd0bc0925f1c942f294b56b880a87a056a449a1d3ca",
+          "bytes": 16618,
+          "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26)"
         }
       ]
     },
