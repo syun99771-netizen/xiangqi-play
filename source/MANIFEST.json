@@ -236,6 +236,10 @@
       "bytes": 2363,
       "sha256": "a760a916a9ca4a693952caad5e1bd05bb9237fc192b93ee74a9601661daf1f79"
     },
+    "tests/abort-tt-ancestor.test.mjs": {
+      "bytes": 4037,
+      "sha256": "117f14e00c10543bdd7f7d05469bf46d6e347767ce9bd344c8ca2ebbbc74c522"
+    },
     "tests/accumulator-workspace.test.mjs": {
       "bytes": 4715,
       "sha256": "97ca91577461558cce2c9e062ec26cc369859211cca2f73cec271cedabd98b36"
