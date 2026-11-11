@@ -26,7 +26,7 @@ function createCc0BenchmarkPlayer(board, {model, arm = 'candidate', clock, timeB
   const evaluator = arm === 'candidate' ? createCachedEvaluator(parsed) : null;
   const config = configureBenchmarkBoard(board, arm);
   try {
-    return {config, search: new Search({...config.searchOptions, clock, timeBasis, ...(evaluator ? {evaluator} : {})})};
+    return {config, search: new Search({...config.searchOptions, retainCompletedRootWin:arm==='candidate', clock, timeBasis, ...(evaluator ? {evaluator} : {})})};
   } catch (error) {config.restore(); throw error;}
 }
 
@@ -74,7 +74,8 @@ export function runCc0BenchmarkSearch(input, {model, onInfo = () => {}, stopFlag
       historyComplete: true, historyOriginFEN: origin,
       onInfo: info => onInfo({type: 'info', requestId, ...info, pv: info.pv.map(moveToUci), context, profile})});
     return {...result, type: 'result', requestId,
-      status: result.depth > 0 ? 'completed-iteration' : 'budget-exhausted', terminal: false,
+      status: result.forcedWin ? 'forced-win-found' : result.depth > 0 ? 'completed-iteration' : 'budget-exhausted', terminal: false,
+      ...(result.forcedWin?{forcedWin:{...result.forcedWin,move:moveToUci(result.forcedWin.move)}}:{}),
       move: result.move === null ? null : moveToUci(result.move), pv: result.pv.map(moveToUci), context, profile};
   } finally {player.config.restore();}
 }

@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
-import {thinkingLimits,completedResult,statsLabel} from '../web/thinking.mjs';
+import {thinkingLimits,completedResult,statsLabel,forcedWinResult} from '../web/thinking.mjs';
 test('UI budgets are exclusive and validated',()=>{
  assert.deepEqual(thinkingLimits('time','3','6'),{mode:'time',movetime:3000,depth:32});assert.deepEqual(thinkingLimits('depth','bad','6'),{mode:'depth',depth:6});assert.deepEqual(thinkingLimits('infinite','bad','bad'),{mode:'infinite'});
  for(const [m,s,d] of [['time',0,6],['time',61,6],['depth',3,1.2],['depth',3,33],['other',3,6]])assert.throws(()=>thinkingLimits(m,s,d));
@@ -14,7 +14,7 @@ function harness(){
  const $=id=>{if(!elements.has(id))elements.set(id,element());return elements.get(id);};$('side').value='1';$('mode').value='infinite';$('seconds').value='3';$('depth').value='3';
  class FakeGame{constructor(){this.moves=[];this.board={turn:1,squares:new Int8Array(90),generateLegalMoves:()=>[],inCheck:()=>false};}verdict(){return{terminal:false};}request(limits){return{limits,moves:[...this.moves]};}play(move){this.moves.push(move);this.board.turn*=-1;}}
  class FakeWorker{constructor(){workers.push(this);}postMessage(x){this.request=x;}terminate(){this.terminated=true;}}
- const context=vm.createContext({document:{getElementById:$,createElement:element},Game:FakeGame,Worker:FakeWorker,thinkingLimits,completedResult,statsLabel,progressLabel:()=>'',chineseHistory,readableVersion:()=>'',moveFrom:()=>0,moveTo:()=>1,performance:{now:()=>1000},fetch:()=>new Promise(()=>{}),setTimeout:f=>{timers.set(++timerId,f);return timerId;},clearTimeout:id=>timers.delete(id),setInterval:f=>{timers.set(++timerId,f);return timerId;},clearInterval:id=>timers.delete(id)});
+ const context=vm.createContext({document:{getElementById:$,createElement:element},Game:FakeGame,Worker:FakeWorker,thinkingLimits,completedResult,statsLabel,forcedWinResult,progressLabel:()=>'',chineseHistory,readableVersion:()=>'',moveFrom:()=>0,moveTo:()=>1,performance:{now:()=>1000},fetch:()=>new Promise(()=>{}),setTimeout:f=>{timers.set(++timerId,f);return timerId;},clearTimeout:id=>timers.delete(id),setInterval:f=>{timers.set(++timerId,f);return timerId;},clearInterval:id=>timers.delete(id)});
  // Keep real app state transitions and callbacks; only render DOM is stubbed.
  let source=fs.readFileSync(new URL('../web/app.mjs',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');source=source.replace('function renderHistory(){','function renderHistory(){return;');vm.runInContext(source,context);
  return {$,workers,timers,run:s=>vm.runInContext(s,context),start:()=>{$('side').value='-1';$('side').onchange();return workers.at(-1);}};

@@ -1,0 +1,72 @@
+{
+  "status": "isolated-unpublished-candidate",
+  "baselineCommit": "0d6ba9d9593754d7c76d9b2279747c6040bb4d96",
+  "changes": [
+    {
+      "path": "engine/src/search-public-b562.js",
+      "previousSha256": "333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27",
+      "sha256": "15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8",
+      "bytes": 27329
+    },
+    {
+      "path": "provenance/ENGINE-SOURCE.json",
+      "previousSha256": "109dd263156a61fb2802d4afcbf7576f37d21f3d46f4306e209b401d177a9fc2",
+      "sha256": "0fda4ff2ae8a38eb1c120188f9a132b0c574a16f3832ad5525e42996e4d5a3a6",
+      "bytes": 13423
+    },
+    {
+      "path": "reference-core.mjs",
+      "previousSha256": "b922a2d9c0c14da47a22a344d73af8f286202ed5094e8ca5520a39a55af2154d",
+      "sha256": "51a0c692e1f7de0f545d11b8ae4cf02fa5301dbba463e30d95acc822abd48bf0",
+      "bytes": 4838
+    },
+    {
+      "path": "tests/forced-win-integration.test.mjs",
+      "previousSha256": null,
+      "sha256": "bd93ab6ebd2aa56d7c6232d6dd4a094021cb2eff1f81fec67b76d81fbe5168f0",
+      "bytes": 3503
+    },
+    {
+      "path": "tests/forced-win-safety.test.mjs",
+      "previousSha256": null,
+      "sha256": "33ff6588d87e75bb5b9c9c1fcf3fd46d144c6b361c3e16dcfafc2eb1b346d0d7",
+      "bytes": 11787
+    },
+    {
+      "path": "tests/forced-win-ui.test.mjs",
+      "previousSha256": null,
+      "sha256": "27f7cb7163dc300d7e1ec5f7cde98f6564f313031e7a967c037dbf429a502ae8",
+      "bytes": 5554
+    },
+    {
+      "path": "tests/package.test.mjs",
+      "previousSha256": "566e738664003552b0f8d08bc36e663d2d82b8f183dccd3eec76b9e5821ff339",
+      "sha256": "3deb83cc1628077957995274f34a739a3ca75a814c309e2662c36fbe75aca7a1",
+      "bytes": 4732
+    },
+    {
+      "path": "tests/thinking-ui.test.mjs",
+      "previousSha256": "8f34a90b715c3f60fff82542731eaa8663c85fb2725632bd8d760f136133cd78",
+      "sha256": "2d44bb7e2e1dfb59821fca1d91c6aa510844f69f0c3aa8906282bfa1088b593e",
+      "bytes": 7035
+    },
+    {
+      "path": "tests/ui-terminal-cache.test.mjs",
+      "previousSha256": "357dbcc740448cba1c8947b88716ed7e608becc6b692dbdb689b408992cd10b8",
+      "sha256": "0c6431b41690cc6537776e14b5eab07b3985247dc4eedde4e648b8540c913941",
+      "bytes": 21010
+    },
+    {
+      "path": "web/app.mjs",
+      "previousSha256": "b4f9b69528a8cc6a1cce0045071539a30bfab41db058eaea9ab58714f62630a2",
+      "sha256": "d15a720f9d7519cf7b90e3c98b541f94da4a31d80376ac839606c92a3e1f5473",
+      "bytes": 9493
+    },
+    {
+      "path": "web/thinking.mjs",
+      "previousSha256": "1c6223a2e7f1a3dc4ac02a00c8cff038d4cd51d2963de01b0a87bd13db7ca293",
+      "sha256": "fbade47a1e7fac3e6eb386c0ec9a9e7d944c9b9e2bcccffad91ac790260272f9",
+      "bytes": 3064
+    }
+  ]
+}
