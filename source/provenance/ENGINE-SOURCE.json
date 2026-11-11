@@ -269,8 +269,8 @@
     },
     {
       "path": "engine/src/endgame-guide.js",
-      "bytes": 118772,
-      "sha256": "c66a2bcf017f98b63a41080831b8f9ed0b8e173dc9a9e6cd90a5cfa07fd16970",
+      "bytes": 118830,
+      "sha256": "0bd71a9fa98586045dc95fce90a753ebef80e7d8ef24ade3c463ed20ce240e67",
       "transformation": "generated exact KNK/KNKA guide; see provenance/KNKA-GUIDE.md"
     }
   ]

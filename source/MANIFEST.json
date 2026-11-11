@@ -93,8 +93,8 @@
       "sha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf"
     },
     "engine/src/endgame-guide.js": {
-      "bytes": 118772,
-      "sha256": "c66a2bcf017f98b63a41080831b8f9ed0b8e173dc9a9e6cd90a5cfa07fd16970"
+      "bytes": 118830,
+      "sha256": "0bd71a9fa98586045dc95fce90a753ebef80e7d8ef24ade3c463ed20ce240e67"
     },
     "engine/src/evaluate.js": {
       "bytes": 5419,
@@ -218,11 +218,11 @@
     },
     "provenance/ENGINE-SOURCE.json": {
       "bytes": 12687,
-      "sha256": "cf3bfcc09cb3f5fcc88031f3b82138c9b6276975c08711d952af838fd0df684a"
+      "sha256": "109dd263156a61fb2802d4afcbf7576f37d21f3d46f4306e209b401d177a9fc2"
     },
     "provenance/KNKA-GUIDE.md": {
-      "bytes": 2992,
-      "sha256": "229c35c0c59ef7c0f363a0d5f56cc649c17b50f242129418b475fef48b0a6b16"
+      "bytes": 4389,
+      "sha256": "f1d9945de0e1bdbe7e7f1a2d39d4a2a767b083300452d6e1cce2f49e7a21e77a"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
@@ -279,6 +279,10 @@
     "tests/chinese-notation.test.mjs": {
       "bytes": 4272,
       "sha256": "37b15708eb1d387648adbe4d5a4a6c9c7a8249432b5ed8e0363fd36852bc326e"
+    },
+    "tests/endgame-guide-black.test.mjs": {
+      "bytes": 3184,
+      "sha256": "e489d2c86e3db3d6b40e9db99791a1944a4e696cbfae7eed195f9680ce4e0b1e"
     },
     "tests/endgame-guide.test.mjs": {
       "bytes": 4990,
