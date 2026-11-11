@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "type": "module",
-  "description": "Recovered pure-JavaScript Xiangqi publicSearch with confirmed preparation and FT4 optimizations; external pinned CC0 model.",
+  "description": "Recovered JavaScript Xiangqi publicSearch with one optional exact fixed-memory NNUE SIMD numeric head; external pinned CC0 model.",
   "license": "GPL-3.0-or-later",
   "engines": {
     "node": ">=22"
@@ -30,8 +30,9 @@
   ],
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
-    "test:unit": "node --test --test-concurrency=1 tests/adjudication.test.mjs tests/board-attacks-fast.test.mjs tests/board.test.mjs tests/neural-search.test.mjs tests/qsearch-repetition.test.mjs tests/rule-profiles.test.mjs tests/sdk-score-safety.test.mjs tests/search-history-safety.test.mjs tests/search-limits.test.mjs tests/search.test.mjs tests/transposition.test.mjs tests/verified-check-search.test.mjs tests/limits.test.mjs tests/package.test.mjs tests/browser-worker-protocol.test.mjs tests/qsearch-checked-eval.test.mjs tests/leaf-tt-bypass.test.mjs tests/accumulator-workspace.test.mjs tests/sorted-validation.test.mjs tests/paired-ft-lanes.test.mjs tests/output-pair-float64.test.mjs",
+    "test:unit": "node --test --test-concurrency=1 tests/adjudication.test.mjs tests/board-attacks-fast.test.mjs tests/board.test.mjs tests/neural-search.test.mjs tests/qsearch-repetition.test.mjs tests/rule-profiles.test.mjs tests/sdk-score-safety.test.mjs tests/search-history-safety.test.mjs tests/search-limits.test.mjs tests/search.test.mjs tests/transposition.test.mjs tests/verified-check-search.test.mjs tests/limits.test.mjs tests/package.test.mjs tests/browser-worker-protocol.test.mjs tests/qsearch-checked-eval.test.mjs tests/leaf-tt-bypass.test.mjs tests/accumulator-workspace.test.mjs tests/sorted-validation.test.mjs tests/paired-ft-lanes.test.mjs tests/output-pair-float64.test.mjs tests/wasm-head-kernel.test.mjs tests/wasm-head-boundaries.test.mjs tests/wasm-head-capability.test.mjs",
     "verify": "node verify-manifest.mjs",
-    "example": "node node-example.mjs"
+    "example": "node node-example.mjs",
+    "verify:wasm": "node --test tests/wasm-head*.test.mjs"
   }
 }

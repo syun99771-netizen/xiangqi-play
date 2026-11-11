@@ -3,6 +3,7 @@
 // Upstream: https://github.com/fairy-stockfish/Fairy-Stockfish/tree/84dd49a4bd00b9959b07e1b917d362c46e6f6d75/src/nnue
 // This adapter is GPL-3.0-or-later. Separately acquired network weights are CC0.
 import { FORMAT } from './format.mjs';
+import {createWasmHead} from './wasm-head.mjs';
 
 const clip = value => Math.max(0, Math.min(127, value));
 const truncDiv = (value, divisor) => Math.trunc(value / divisor) || 0;
@@ -154,6 +155,7 @@ function evaluateStates(parameters, options, redState, blackState, workspace) {
   const { pieceCount, sideToMove, diagnostics } = options;
     const stm = sideToMove === 'red' ? redState : blackState;
     const opp = sideToMove === 'red' ? blackState : redState;
+    if(parameters.wasmHead&&!diagnostics){const bucket=Math.min(Math.floor((pieceCount-1)/4),FORMAT.stacks-1);const denseOutput=parameters.wasmHead(stm.accumulation,opp.accumulation,bucket);const psqtDifference=(stm.psqt[bucket]-opp.psqt[bucket])|0;return truncDiv((truncDiv(psqtDifference,2)+denseOutput)|0,FORMAT.outputScale);}
     const transformed = workspace?.transformed ?? new Uint8Array(FORMAT.inputSize);
     for (let i = 0; i < FORMAT.accumulatorSize; i++) {
       transformed[i] = clip(stm.accumulation[i]);
@@ -191,6 +193,7 @@ export function createOwnedEvaluator(parameters) {
   // temporary row-major arrays created by parsing are not retained here.
   parameters = {
     ...parameters,
+    wasmHead:createWasmHead(parameters.stacks),
     stacks: parameters.stacks.map(stack => [transposeFirstHead(stack[0]), stack[1], stack[2]]),
   };
   const evaluator = function evaluateOwnedFeatures(options) {

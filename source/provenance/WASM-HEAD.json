@@ -1,0 +1,74 @@
+{
+  "schema": "xiangqi-numeric-head-wasm-v1",
+  "scope": "Exactly one optional numeric NNUE SIMD head; no native or WASM Search, rules, feature transformer, model, WASI, threads, imports, or other backends.",
+  "license": "GPL-3.0-or-later",
+  "upstream": {
+    "repository": "https://github.com/fairy-stockfish/Fairy-Stockfish",
+    "commit": "84dd49a4bd00b9959b07e1b917d362c46e6f6d75",
+    "derivation": "Direct numerical translation of the existing GPL JavaScript NNUE head, with unchanged C07 network input."
+  },
+  "helperPath": "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head.mjs",
+  "source": {
+    "path": "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head-source.c",
+    "sha256": "11fc8606c57f7807a4d61ac6bc17df3348f5919fcbe2b284c5425902f48cc61e",
+    "bytes": 2633
+  },
+  "binary": {
+    "sha256": "9e806804d5e5a0041c20165a2cc3481060ad63bf774b598dc7d99858d5eab046",
+    "bytes": 1184,
+    "imports": [],
+    "exports": {
+      "memory": "memory",
+      "weights_ptr": "function",
+      "accum_ptr": "function",
+      "weights_bytes": "function",
+      "run_head": "function"
+    },
+    "memory": {
+      "initialPages": 4,
+      "maximumPages": 4,
+      "bytes": 262144,
+      "shared": false
+    },
+    "weightsOffset": 65536,
+    "weightsBytes": 141088,
+    "accumOffset": 206624,
+    "accumBytes": 2048
+  },
+  "toolchain": {
+    "name": "LLVM clang 24.0.0git from official Emscripten SDK",
+    "llvmRevision": "84ba7b37f02df5a5567e31a1bcfa0f607e578f12",
+    "clangSha256": "febfad2a5ecdb9bb862e103bf4138c3ef7cbaac8f378834b8ed4775687b6d6c1",
+    "wasmLdSha256": "3136cbda7bb18db6df8071b8bad33f51b786425f07992e81411d2301ff1c3b89",
+    "selection": "Explicit WASM_CC absolute path; sibling wasm-ld; both executables authenticated before compilation. No network or automatic installation.",
+    "distribution": {
+      "name": "Emscripten 7.0.0, Linux x86-64",
+      "emsdkCommit": "1693ce7359fc9694f198694f902a2cc061239b86",
+      "releaseHash": "6afbd83493d647051772d491124187d4e9a0cda9",
+      "archiveUrl": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/6afbd83493d647051772d491124187d4e9a0cda9/wasm-binaries.tar.xz",
+      "archiveBytes": 322310412,
+      "archiveSha256": "6e7c6d26cf8bde31e6cf6a377c113f913cb2d30f4c2d671c1042e1c4bcd16495",
+      "publishedChecksumSource": "https://github.com/emscripten-core/emsdk/blob/1693ce7359fc9694f198694f902a2cc061239b86/bazel/revisions.bzl",
+      "archiveRoot": "install",
+      "compilerPath": "install/bin/clang",
+      "linkerPath": "install/bin/wasm-ld"
+    }
+  },
+  "buildFlags": [
+    "--target=wasm32",
+    "-O3",
+    "-msimd128",
+    "-nostdlib",
+    "-Wl,--no-entry",
+    "-Wl,--export=weights_ptr",
+    "-Wl,--export=accum_ptr",
+    "-Wl,--export=weights_bytes",
+    "-Wl,--export=run_head",
+    "-Wl,--export-memory",
+    "-Wl,--initial-memory=262144",
+    "-Wl,--max-memory=262144",
+    "-Wl,-z,stack-size=65536"
+  ],
+  "fallback": "Use existing scalar JS if WebAssembly APIs, atob, little-endian typed arrays or SIMD validation are unavailable, or Module/Instance construction throws native WebAssembly.CompileError (including CSP). Other constructor failures, layout/parameter errors, copy errors and runtime traps propagate; there is no runtime retry in JS.",
+  "unchanged": "Search, rules, features, feature transform, caches, PSQT/scaling, C07 weights, facade exports and UI."
+}

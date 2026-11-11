@@ -21,8 +21,8 @@
       "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
     },
     "NOTICE.md": {
-      "bytes": 2657,
-      "sha256": "fae0e4d0ee3640a4492a4b38b5ce048a9669a9597ba4d111e9feef0220bdc977"
+      "bytes": 3145,
+      "sha256": "cc689045a7515c69b4e80d8ea490c3d14bc857912dcbddd71f12be69912c4999"
     },
     "OPTIMIZATION-20261108.md": {
       "bytes": 17959,
@@ -33,12 +33,16 @@
       "sha256": "f69a16c86b829d7cb3e4c3c68816972fb1257ee6419eb1c8261a992b69376728"
     },
     "README.md": {
-      "bytes": 9326,
-      "sha256": "a7a42a671b51b50d5debf664151596da9596267156ab87edefb64868298c88a2"
+      "bytes": 9728,
+      "sha256": "c4a75b7e3faa60c972da4cc4d4c295835bc618f035b611380eef2a0b0c28c8d8"
     },
     "VERIFICATION.md": {
-      "bytes": 3537,
-      "sha256": "189ffeaea413147fe3518ed35d4890f4bcbcb3c671ac4f650bf7d7558b41c3ab"
+      "bytes": 4529,
+      "sha256": "7bfa92d22ce813d577153291bec4f57ad6df212d95a60b4511b1a7b12e477c0d"
+    },
+    "WASM-HEAD.md": {
+      "bytes": 4036,
+      "sha256": "c97c116f59c9299d182991ae53ae4f1ec2ceb3891ca5515b0703af25fa1a6d91"
     },
     "api.mjs": {
       "bytes": 4152,
@@ -69,8 +73,8 @@
       "sha256": "3b3fde890761ad6fa9e6d1ec746d85decba5d6f378a4867744acf82a92aae775"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs": {
-      "bytes": 17486,
-      "sha256": "d3c43059573adf741854d89b61fdcc04961ca63ad65625db7390a39ff09d4731"
+      "bytes": 17912,
+      "sha256": "f7bc4adbc24553a69cf1d4911bf2eacfdae1b21b0661c387ad7a665e94a34543"
     },
     "engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs": {
       "bytes": 4069,
@@ -79,6 +83,14 @@
     "engine/experimental/fairy-cc0-sparse-head-v1/search-adapter.mjs": {
       "bytes": 2676,
       "sha256": "8235706dc35dabae7437eded84040f6e85681b960fdcf44308de82996a138e66"
+    },
+    "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head-source.c": {
+      "bytes": 2633,
+      "sha256": "11fc8606c57f7807a4d61ac6bc17df3348f5919fcbe2b284c5425902f48cc61e"
+    },
+    "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head.mjs": {
+      "bytes": 4454,
+      "sha256": "8c1a9cbfc839dea7303101076912e76893688fb46b2a36d86d209d15a9ff483c"
     },
     "engine/package.json": {
       "bytes": 174,
@@ -213,24 +225,28 @@
       "sha256": "39a9dc4b4eb5aa4667a6372eba5f171248c8dc37a502d7c5c7394d7ce27670b3"
     },
     "package.json": {
-      "bytes": 1552,
-      "sha256": "242da367a1c12b1ffc2c68a60a3c9327b1838512fd01cb416103df4dc2d318bb"
+      "bytes": 1722,
+      "sha256": "5d57fdbcbebc67d194f81002a758a4fb14e69d89e47eb800f20ed8fda26ab883"
     },
     "provenance/COMPLETED-ROOT-WIN.json": {
       "bytes": 2730,
       "sha256": "662dc7782a4096f379330880b1a54dd5809cfa410ceeda6df769516ede440ecf"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 13423,
-      "sha256": "0fda4ff2ae8a38eb1c120188f9a132b0c574a16f3832ad5525e42996e4d5a3a6"
+      "bytes": 15176,
+      "sha256": "d95465cea894cc6dce97bf3a3e0dcf90180a488a09aa73790658651f87283298"
     },
     "provenance/KNKA-GUIDE.md": {
-      "bytes": 4389,
-      "sha256": "f1d9945de0e1bdbe7e7f1a2d39d4a2a767b083300452d6e1cce2f49e7a21e77a"
+      "bytes": 4502,
+      "sha256": "0b5fc898e54a52e4f9b0eaed1d47558972fcdba70cc390e64483e6eb1cb76e1d"
     },
     "provenance/MODEL.json": {
       "bytes": 1328,
       "sha256": "f8a258e3efc3518af9fb57823ce4d9f524b43b2005a33890e9d49c5400f888e3"
+    },
+    "provenance/WASM-HEAD.json": {
+      "bytes": 3397,
+      "sha256": "0ae2b440086f9f152ecc20d34497b9b7d3238b962dbca23591e4d371abffad5a"
     },
     "reference-core.mjs": {
       "bytes": 4838,
@@ -243,6 +259,14 @@
     "scripts/build-pages.mjs": {
       "bytes": 1848,
       "sha256": "5d6946870f86e89ec7ecd08a43d5af04060f010a255b978c627ace0370aee943"
+    },
+    "scripts/build-wasm-head.mjs": {
+      "bytes": 1712,
+      "sha256": "ea48b97cdb49b5fe9814a93e0142c883ccda05922b54226572fab09b2620483e"
+    },
+    "scripts/embed-wasm-head.mjs": {
+      "bytes": 1258,
+      "sha256": "d60a6f994204c08298ab579da3376af8b6b9c147dd492420bca62f1a281e7cab"
     },
     "scripts/prepare-release.mjs": {
       "bytes": 2363,
@@ -257,8 +281,8 @@
       "sha256": "117f14e00c10543bdd7f7d05469bf46d6e347767ce9bd344c8ca2ebbbc74c522"
     },
     "tests/accumulator-workspace.test.mjs": {
-      "bytes": 4715,
-      "sha256": "97ca91577461558cce2c9e062ec26cc369859211cca2f73cec271cedabd98b36"
+      "bytes": 4794,
+      "sha256": "39a02f25332746364bcbe31a5f691e82d26911c4f014a8f45fb3b8a4e39669c8"
     },
     "tests/adjudication.test.mjs": {
       "bytes": 4136,
@@ -309,8 +333,8 @@
       "sha256": "27f7cb7163dc300d7e1ec5f7cde98f6564f313031e7a967c037dbf429a502ae8"
     },
     "tests/inference-workspace.test.mjs": {
-      "bytes": 3870,
-      "sha256": "b95d2e2e3300572b56554a18ea6afbd54f534d30d702d2b5a57b06cf92fe3ebf"
+      "bytes": 4198,
+      "sha256": "6785cc7e36842de7c5043132f8a13334741a4b263ed2b594728b61effbab6ec3"
     },
     "tests/leaf-tt-bypass.test.mjs": {
       "bytes": 4106,
@@ -333,16 +357,16 @@
       "sha256": "0181ef367efe2a7882a84ee59a820540fcf94f1240b8231e64cfbd56040cb2e6"
     },
     "tests/package.test.mjs": {
-      "bytes": 4732,
-      "sha256": "3deb83cc1628077957995274f34a739a3ca75a814c309e2662c36fbe75aca7a1"
+      "bytes": 6536,
+      "sha256": "08deb18b59d10a4e2f2aca2343e445ad1a333893cbeb7a2652f8041fa7c43dc3"
     },
     "tests/paired-ft-lanes.test.mjs": {
       "bytes": 3737,
       "sha256": "b8a21926c82ff7e455a5eebde52a6b2770de97a2e118d78137d3e150fbb359e9"
     },
     "tests/paired-refresh.test.mjs": {
-      "bytes": 4367,
-      "sha256": "91879d38941e52f228d1468e3188c97f2a39291ffbed98cb1fa6914e15b8a741"
+      "bytes": 4446,
+      "sha256": "83e847b3983969eb55d2de2f01bce99007c586930bdf0603c48e72b216a409a7"
     },
     "tests/qsearch-checked-eval.test.mjs": {
       "bytes": 2295,
@@ -415,6 +439,22 @@
     "tests/verified-check-search.test.mjs": {
       "bytes": 6311,
       "sha256": "cc96a6d9e3f51e6f518354d89aec51663f0df41c9dce2f947501cc62dc4b58de"
+    },
+    "tests/wasm-head-boundaries.test.mjs": {
+      "bytes": 8259,
+      "sha256": "22322408744d4eb1ee25e293994a867ebd21fabfee45938649845501b0257e57"
+    },
+    "tests/wasm-head-capability.test.mjs": {
+      "bytes": 5122,
+      "sha256": "851ffb35630e7641339ba8ce04affc845a65953b1e8e2f893571ba6d41345fe4"
+    },
+    "tests/wasm-head-kernel.test.mjs": {
+      "bytes": 1919,
+      "sha256": "d42e2462150628b718ef9b5a4751c502c0b13ae8eebea9a4b19dda06a87ababc"
+    },
+    "tests/wasm-head-release.test.mjs": {
+      "bytes": 2817,
+      "sha256": "7a4b4915fb6c67ecfa6635943a059025fdfc16b21b748a500c5cf12ffbc69f93"
     },
     "tests/web-game.test.mjs": {
       "bytes": 2821,

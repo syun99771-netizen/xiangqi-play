@@ -9,7 +9,8 @@
     "2026-11-08: skip unused checked-quiescence static evaluation",
     "2026-11-08: bypass unused leaf ordering-only TT probe",
     "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics",
-    "2026-11-08: incremental sorted-owned feature validation without Set; full-refresh validation unchanged"
+    "2026-11-08: incremental sorted-owned feature validation without Set; full-refresh validation unchanged",
+    "2026-11-12: one optional exact fixed-memory SIMD NNUE numeric head; scalar capability/CSP fallback, no other WASM/native backend"
   ],
   "excluded": [
     "board-pseudo-index candidate",
@@ -50,9 +51,9 @@
     },
     {
       "path": "engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs",
-      "bytes": 17486,
-      "sha256": "d3c43059573adf741854d89b61fdcc04961ca63ad65625db7390a39ff09d4731",
-      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged); 2026-11-10: reuse exact paired-lane kernel for aligned private-session refresh; scalar full-refresh and unaligned fallback unchanged",
+      "bytes": 17912,
+      "sha256": "f7bc4adbc24553a69cf1d4911bf2eacfdae1b21b0661c387ad7a665e94a34543",
+      "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged); 2026-11-10: reuse exact paired-lane kernel for aligned private-session refresh; scalar full-refresh and unaligned fallback unchanged; 2026-11-12: raw inference may use one exact fixed-memory WASM SIMD numeric head; diagnostics and scalar fallback unchanged",
       "baselineSha256": "f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0",
       "baselineBytes": 13871,
       "priorVersions": [
@@ -80,6 +81,11 @@
           "sha256": "a1dbfd1c762d56b71354ac46e80469c58342f2b18d9423ed4b4e14a1c6049c30",
           "bytes": 17150,
           "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged)"
+        },
+        {
+          "bytes": 17486,
+          "sha256": "d3c43059573adf741854d89b61fdcc04961ca63ad65625db7390a39ff09d4731",
+          "transformation": "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged); 2026-11-10: reuse exact paired-lane kernel for aligned private-session refresh; scalar full-refresh and unaligned fallback unchanged"
         }
       ]
     },
@@ -277,6 +283,18 @@
       "bytes": 118830,
       "sha256": "0bd71a9fa98586045dc95fce90a753ebef80e7d8ef24ade3c463ed20ce240e67",
       "transformation": "generated exact KNK/KNKA guide; see provenance/KNKA-GUIDE.md"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head.mjs",
+      "transformation": "2026-11-12: optional exact zero-import numeric-head SIMD bridge; native CompileError capability/CSP fallback only; layout and runtime faults propagate",
+      "bytes": 4454,
+      "sha256": "8c1a9cbfc839dea7303101076912e76893688fb46b2a36d86d209d15a9ff483c"
+    },
+    {
+      "path": "engine/experimental/fairy-cc0-sparse-head-v1/wasm-head-source.c",
+      "transformation": "2026-11-12: full corresponding GPL C numeric-head translation, byte-identical to independently reviewed kernel; see provenance/WASM-HEAD.json",
+      "bytes": 2633,
+      "sha256": "11fc8606c57f7807a4d61ac6bc17df3348f5919fcbe2b284c5425902f48cc61e"
     }
   ]
 }

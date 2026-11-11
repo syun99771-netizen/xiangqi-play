@@ -1,8 +1,10 @@
 # License and provenance
 
-This is recovered pure-JavaScript Xiangqi source with an external model input.
-No model weights, native engine binary, WASM module, match corpus, training
-dataset, or large evidence files are distributed in this source package.
+This is recovered JavaScript Xiangqi search source with an external model input.
+The only WASM component is one embedded 1,184-byte fixed-memory SIMD numeric
+NNUE head, with complete corresponding C source and reproducible build/embed
+scripts included. No model weights, native engine binary, full WASM chess
+backend, match corpus, training dataset, or large evidence files are included.
 
 ## Code: GPL-3.0-or-later
 
@@ -16,15 +18,18 @@ source headers and this notice. The full license is in `LICENSE`.
   commit `b562d6aeac5401879e973dc53ddb56053f07bb6a`, Copyright Pikafish/Stockfish
   contributors. Source: https://github.com/official-pikafish/Pikafish/tree/b562d6aeac5401879e973dc53ddb56053f07bb6a
   This is not a claim of equivalence to the 2026-09-25 ChineseRule implementation.
-- `provenance/ENGINE-SOURCE.json` records each of the 34 unchanged engine files
-  from the confirmed cumulative candidate. The recovered source is the older
+- `provenance/ENGINE-SOURCE.json` records all engine files and each explicitly
+  transformed version, including the numeric-head C source and JavaScript glue. The recovered source is the older
   2026-11-02 publicSearch baseline, not the lost latestSearch `b75bd4…` version.
 - The facade, Node client and browser-worker example are reused from the
   recovered portable-reference handoff. Packaging changes shorten imports to
   `engine/`, re-export `SDK_LIMITS`, and add a tested local Node model-path option.
 
-All JavaScript implementation modules required by this distribution are
-included. This notice does not grant permission for closed-source distribution
+All implementation modules, the complete corresponding numeric-head C source,
+compiler/linker identity and flags, and build/embed scripts are included.
+See `WASM-HEAD.md` and `provenance/WASM-HEAD.json` for reproduction. The numeric
+translation and glue are GPL-3.0-or-later; this is not the full Fairy-Stockfish
+backend and does not include or authorize a different model. This notice does not grant permission for closed-source distribution
 of the combined code. Historical test cases demonstrating unsafe experimental
 settings are not authorization to enable them in the public API.
 

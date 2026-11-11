@@ -3,7 +3,7 @@ import {FORMAT as F} from '../engine/experimental/fairy-cc0-sparse-head-v1/forma
 import * as normal from '../engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs';
 const url=new URL('../engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs',import.meta.url);
 // Test-local module instance injects faults; no process-global patch or runtime flag.
-let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href));
+let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href)).replace("'./wasm-head.mjs'",JSON.stringify(new URL('wasm-head.mjs',url).href));
 source='let testFault=()=>{};export function setTestFault(f){testFault=f;}\n'+source;
 for(const [needle,stage]of [["      const nextBlack = transition",'after-red'],["      const result = evaluateStates",'after-black'],["    return Object.freeze({\n      raw, adjusted:",'diagnostics']]){assert(source.includes(needle));source=source.replace(needle,`testFault('${stage}');\n`+needle);}
 const injected=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));

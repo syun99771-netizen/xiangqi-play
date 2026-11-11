@@ -3,9 +3,12 @@ import {FORMAT as F} from '../engine/experimental/fairy-cc0-sparse-head-v1/forma
 import * as normal from '../engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs';
 const url=new URL('../engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs',import.meta.url);
 // Test-local module instance injects faults; no process-global patch or runtime flag.
-let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href));
+let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href)).replace("'./wasm-head.mjs'",JSON.stringify(new URL('wasm-head.mjs',url).href));
 source='let testFault=()=>{};export function setTestFault(f){testFault=f;}\n'+source;
 for(const [needle,stage]of [["    const bucket =",'transformed'],["    const hidden1 =",'hidden1Affine'],["    const hidden2Affine =",'hidden1'],["    const hidden2 =",'hidden2Affine'],["    const denseOutput =",'hidden2'],["    const psqtDifference =",'output']]){assert(source.includes(needle));source=source.replace(needle,`testFault('${stage}');\n`+needle);}
+// This legacy per-stage injection deliberately exercises the scalar fallback.
+// The independent private bridge tests cover WASM exceptions/transaction rollback.
+source=source.replace('wasmHead:createWasmHead(parameters.stacks)', 'wasmHead:null');
 const injected=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
 const params={ftBias:new Int16Array(512).fill(32760),ftWeight:new Int16Array(F.featureCount*512).fill(32767),psqt:new Int32Array(F.featureCount*8).fill(2147483647),stacks:Array.from({length:8},()=>[{bias:new Int32Array(16).fill(2147483640),weight:new Int8Array(16*1024).fill(127)},{bias:new Int32Array(32).fill(-2147483640),weight:new Int8Array(32*32).fill(-128)},{bias:new Int32Array(1).fill(2147483640),weight:new Int8Array(32).fill(127)}])};
 for(let col=0;col<1200;col++)for(let i=0;i<512;i++)params.ftWeight[col*512+i]=(col+i)%2?-32768:32767;

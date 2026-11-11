@@ -1,8 +1,8 @@
-# 中国象棋纯 JavaScript 恢复版
+# 中国象棋 JavaScript 搜索恢复版
 
 这是 **2026-11-02 恢复出的旧 publicSearch 基线**，合入已经确认的三项优化：SDK 历史单着合法性准备、保留自定义生成器兼容性的 `Board.isLegalMove` 单着检查，以及 NNUE `applyColumn` 四路展开。**不是丢失的 latestSearch（b75bd4…）恢复件。**
 
-走法生成、搜索、规则判断和 NNUE 推理均为 JavaScript。没有 native / WASM 替换，没有自动下载、训练、遥测或 npm 依赖。初始基线的 34 个 `engine/` 文件来源已记录；2026-11-08 更新搜索器以省去将军态无用估值及叶节点无用置换表提示查询，并将 NNUE 累加器改为事务式双缓冲，减少临时数组分配；其余 32 个引擎文件保持不变。双缓冲在两轮固定样本 Node 测量中减少约 6.4–7.8% 搜索 CPU，完整搜索及评价签名一致；这不是 Elo 提升或浏览器加速证明。后续仅在增量 NNUE 校验中以排序后的相邻重复检查替代 Set，相对双缓冲版又减少约 5.7–5.9% 样本 Node 搜索 CPU；这些不同基线的百分比不能相加作为总收益。此前双缓冲版 24 局等时间自对弈为 11 胜 12 负 1 和，未证明棋力更强。详见 `OPTIMIZATION-20261108.md`。保留源码中的历史 `experimental/` 路径只是为了避免改动导入及文件内容，不代表纳入新的实验候选。
+走法生成、搜索、规则判断、特征与特征变换保持 JavaScript。NNUE 的三个数值输出层可使用一个精确的 1,184-byte WASM SIMD 模块，能力不支持或 CSP 禁止编译时使用原 JavaScript 路径。没有完整 native / WASM 搜索引擎、额外网络、训练、遥测或 npm 依赖。完整对应 C 源码与重建说明见 `provenance/WASM-HEAD.json` 和 `WASM-HEAD.md`。初始基线的 34 个 `engine/` 文件来源已记录；2026-11-08 更新搜索器以省去将军态无用估值及叶节点无用置换表提示查询，并将 NNUE 累加器改为事务式双缓冲，减少临时数组分配；该次更新的其余 32 个引擎文件保持不变，后续变更均见来源记录。双缓冲在两轮固定样本 Node 测量中减少约 6.4–7.8% 搜索 CPU，完整搜索及评价签名一致；这不是 Elo 提升或浏览器加速证明。后续仅在增量 NNUE 校验中以排序后的相邻重复检查替代 Set，相对双缓冲版又减少约 5.7–5.9% 样本 Node 搜索 CPU；这些不同基线的百分比不能相加作为总收益。此前双缓冲版 24 局等时间自对弈为 11 胜 12 负 1 和，未证明棋力更强。详见 `OPTIMIZATION-20261108.md`。保留源码中的历史 `experimental/` 路径只是为了避免改动导入及文件内容，不代表纳入新的实验候选。
 
 增量底层特征接口对含多种错误的非法输入，可能改变首先报告的错误及 getter 读取次数；输入仍被拒绝，状态回滚保持。正常 SDK 输入与合法特征的数值行为不变；full-refresh 接口仍使用原校验顺序。
 
@@ -69,7 +69,7 @@ try {
 
 ## 浏览器安全入口与导出
 
-`api.mjs` 的静态依赖闭包仅有本地 JavaScript，无 Node imports。导出：
+`api.mjs` 的静态依赖闭包仅有本地 JavaScript 文件，无 Node imports；其中只有精确白名单的数值 head 模块可内嵌和构造 WASM。导出：
 
 - `createReference({readModelBytes})`：懒加载、SHA 验证、私有模型；提供异步 `search()`、`dispose()`、`modelLoaded`。
 - `loadPinnedModel(bytes)`、`searchWithModel(request, {model, stopFlag, onInfo})`：显式加载及同步搜索。
@@ -77,7 +77,7 @@ try {
 
 package exports：`xiangqi-recovered-js` 指向 facade；`xiangqi-recovered-js/node` 仅导出 Node client；`xiangqi-recovered-js/browser-worker` 指向模块 worker 示例。
 
-**浏览器真实运行仍未验证。** 已通过静态导入闭包检查不等于浏览器/WebWorker实测。请用 module worker 承载同步 Search；即使 `createReference.search()` 返回 Promise，加载完成后的搜索仍会阻塞所在线程，不要放在 UI 主线程。
+当前生产集成副本的最终浏览器验收另行进行，静态导入闭包检查不等于浏览器/WebWorker 实测。请用 module worker 承载同步 Search；即使 `createReference.search()` 返回 Promise，加载完成后的搜索仍会阻塞所在线程，不要放在 UI 主线程。
 
 `worker-demo.mjs` 接收 `{id, request, modelBytes, cancelBuffer?}`，返回 `{id, ok, result}` 或 `{id, ok, error}`。先通过现有页面/文件选择逻辑提供原始 C07 bytes；示例本身不会下载模型。需要 HTTPS 或 localhost 安全上下文的 Web Crypto、现代 ES modules、`structuredClone`。共享取消需要 SharedArrayBuffer 支持及适当跨源隔离；普通取消消息不能中断同步循环，应由宿主页调用 `worker.terminate()`。这个文件是集成示例，不是已测试的完整 UI。
 

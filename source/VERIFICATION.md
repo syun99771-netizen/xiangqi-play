@@ -58,9 +58,25 @@ not hidden or bundled as source. Some legacy TT tests intentionally demonstrate
 unsafe `ttBounds:true` behavior; they do not endorse that option. The public
 facade rejects it.
 
+## Current numeric-head integration
+
+The optional SIMD head is exactly 1,184 bytes, SHA-256
+`9e806804d5e5a0041c20165a2cc3481060ad63bf774b598dc7d99858d5eab046`.
+Its C source and compiler/linker pins, complete flags and build/embed scripts
+are part of this distribution. See `WASM-HEAD.md`.
+The package guard retains the prohibition on any other WASM or native backend.
+New tests cover 2,112 scalar differential cases, 408 independent BigInt boundary
+cases, 51 parameter-ownership cases, nine rollback/reentry/trap cases, capability
+fallback and exact zero-import/fixed-memory binary structure.
+Historical scalar fault-injection tests explicitly select scalar evaluation;
+WASM copy/call/trap rollback has its own independent coverage. Test import
+rewrites only resolve static local helper imports in isolated data-URL fixtures.
+
 ## Not established
 
-Actual browser/WebWorker execution remains **unverified**. Static closure and
-Node tests do not establish browser compatibility, UI responsiveness, browser
-performance, playing strength, Elo, a fixed-time strength improvement, complete
-CCA rule compliance, or recovery of the lost latestSearch source.
+The final production integration's actual browser/WebWorker validation is a
+separate gate, not implied by Node tests. Earlier frozen private study samples
+showed about 25% lower Node search CPU and about 22.6% lower low-level desktop
+Chromium wall time, not a guarantee for every request or device. Cold model
+startup, mobile performance, playing strength, Elo, fixed-time strength,
+complete CCA rule compliance and recovery of lost latestSearch are not established.

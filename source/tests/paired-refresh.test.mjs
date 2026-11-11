@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {FORMAT as F} from '../engine/experimental/fairy-cc0-sparse-head-v1/format.mjs';
 const url=new URL('../engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs',import.meta.url);
-let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href));
+let source=fs.readFileSync(url,'utf8').replace("'./format.mjs'",JSON.stringify(new URL('format.mjs',url).href)).replace("'./wasm-head.mjs'",JSON.stringify(new URL('wasm-head.mjs',url).href));
 const needle='for (const index of indices) applyColumn(parameters, storage, index, 1);';assert.equal(source.split(needle).length,2);
 source='let hook=()=>{};export function setHook(f){hook=f;}\n'+source.replace(needle,'for (const index of indices) { applyColumn(parameters, storage, index, 1); hook(index); }');
 const api=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
