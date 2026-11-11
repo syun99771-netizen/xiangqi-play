@@ -6,6 +6,8 @@ import {readableVersion} from './version.mjs';
 import {moveFrom,moveTo} from './engine/src/board.js';
 const $=id=>document.getElementById(id),names={1:'兵',2:'仕',3:'相',4:'马',5:'炮',6:'车',7:'帅','-1':'卒','-2':'士','-3':'象','-4':'马','-5':'砲','-6':'车','-7':'将'};
 let game,selected=null,worker=null,busy=false,last=null,generation=0,watchdog,statsTimer,searchStarted=null,latest=null;
+// UI-owned only: unchanged selection/controls do not change the game's verdict.
+let terminalGame=null,terminalVerdict=null;
 const player=()=>Number($('side').value),squareName=s=>String.fromCharCode(97+s%9)+(9-Math.floor(s/9));
 function status(s){$('status').textContent=s;}
 function resetLoading(){$('model-loading').hidden=true;$('model-progress').removeAttribute('value');$('model-bytes').textContent='';$('model-stage').textContent='';}
@@ -28,15 +30,17 @@ function renderIteration(info){
  meta.textContent=`${Math.round(info.time)} ms · ${info.nodes.toLocaleString()} 节点`;
  row.append(heading,line,meta);$('iteration-list').append(row);$('iterations').hidden=false;
 }
-function terminal(){const a=game.verdict();if(!a.terminal)return false;status((a.winner===0?'和棋':a.winner===1?'红方胜':'黑方胜')+' · '+a.reason);return true;}
-function click(s){if(busy||game.board.turn!==player()||terminal())return;const p=game.board.squares[s];if(p*player()>0){selected=selected===s?null:s;render();return;}if(selected===null)return;const m=selected*90+s;if(!game.board.isLegalMove(m)){status('这里不能落子，请选择标记的合法落点。');return;}game.play(m);last=[selected,s];selected=null;render();advance();}
+function terminal(){if(terminalGame!==game||terminalVerdict===null){const a=game.verdict();terminalVerdict=a;terminalGame=game;}const a=terminalVerdict;if(!a.terminal)return false;status((a.winner===0?'和棋':a.winner===1?'红方胜':'黑方胜')+' · '+a.reason);return true;}
+// Invalidate before either successful or throwing mutations; Game still checks rules.
+function play(move){terminalVerdict=null;return game.play(move);}
+function click(s){if(busy||game.board.turn!==player()||terminal())return;const p=game.board.squares[s];if(p*player()>0){selected=selected===s?null:s;render();return;}if(selected===null)return;const m=selected*90+s;if(!game.board.isLegalMove(m)){status('这里不能落子，请选择标记的合法落点。');return;}play(m);last=[selected,s];selected=null;render();advance();}
 function fail(message){stop();status('引擎暂不可用：'+message);$('retry').hidden=false;}
 function finish(result){
  clearTimeout(watchdog);clearInterval(statsTimer);busy=false;$('stop').hidden=true;resetLoading();
  try{
   if(!result.move){if(!terminal()){status('尚无完整搜索结果，未落子。请继续思考或重新开始。');$('retry').hidden=false;}return;}
   const from=(9-Number(result.move[1]))*9+result.move.charCodeAt(0)-97,to=(9-Number(result.move[3]))*9+result.move.charCodeAt(2)-97;
-  game.play(result.move);last=[from,to];$('stats').textContent=statsLabel(result,result.stoppedElapsed??null)+(result.depth===0?' · 时间不足，使用合法备用着法':'');
+  play(result.move);last=[from,to];$('stats').textContent=statsLabel(result,result.stoppedElapsed??null)+(result.depth===0?' · 时间不足，使用合法备用着法':'');
   render();if(!terminal())status('轮到你了'+(game.board.inCheck()?' · 正在被将军':''));
  }catch(e){fail(e.message);}
 }

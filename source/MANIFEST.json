@@ -368,6 +368,10 @@
       "bytes": 3986,
       "sha256": "70427c6a621c6467d2461d27d181363b5817899a0643630e04ae4095381562ed"
     },
+    "tests/ui-terminal-cache.test.mjs": {
+      "bytes": 20962,
+      "sha256": "357dbcc740448cba1c8947b88716ed7e608becc6b692dbdb689b408992cd10b8"
+    },
     "tests/verified-check-search.test.mjs": {
       "bytes": 6311,
       "sha256": "cc96a6d9e3f51e6f518354d89aec51663f0df41c9dce2f947501cc62dc4b58de"
@@ -381,8 +385,8 @@
       "sha256": "3073ea6b4b9d8c3480ac717198318b8452ae0c73c339e054fa342891480f09da"
     },
     "web/app.mjs": {
-      "bytes": 8785,
-      "sha256": "655ef6fbdbda7c8073d0772a6efc275930afeb1ceaa7602501b8b191fb486f7e"
+      "bytes": 9162,
+      "sha256": "13fb6ac67ae61bf9e5d2bfe404318d82111fa1e7f03bc3422d95385da5cfa87b"
     },
     "web/board.svg": {
       "bytes": 2474,
