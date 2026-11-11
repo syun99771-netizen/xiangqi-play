@@ -33,6 +33,7 @@ export class Search {
         this.completedIterationCycleGuardReturns=this.totalCycleGuardReturns-iterationCycleStart;
         this.completedIterations.push({depth:d,cycleGuardReturns:this.completedIterationCycleGuardReturns});
         onInfo({depth:d,seldepth:this.selDepth,extensions:this.extensions,completedIterationCycleGuardReturns:this.completedIterationCycleGuardReturns,totalCycleGuardReturns:this.totalCycleGuardReturns,score,nodes:this.nodes,time:Math.round(this.now()-this.start),pv});
+        if(stopFlag&&Atomics.load(stopFlag,0)){this.stopped=true;this.stopReason='external';break;}
         if(Math.abs(score)>MATE-100){this.completionReason='mate';break;}
         if(this.now()>=this.deadline){this.completionReason='time-after-iteration';break;}
       } catch(e) {if(e!==STOP)throw e;this.abortedIterationCycleGuardReturns=this.totalCycleGuardReturns-iterationCycleStart;break;}
