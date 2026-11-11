@@ -17,3 +17,12 @@ test('real browser worker protocol emits completed layers; fixed depth completes
   if(limits.mode==='depth'){const r=events.find(x=>x.type==='result').result;assert.equal(r.depth,2);assert.equal(r.move,infos.at(-1).info.pv[0]);}
  }finally{await w.terminate();}}
 });
+
+test('real browser worker transports proof metadata in fixed depth and infinite modes', {timeout:30000},async()=>{
+ for(const limits of [{mode:'depth',depth:32},{mode:'infinite'}]){
+  const w=worker(),events=[];
+  try {await new Promise((resolve,reject)=>{w.on('error',reject);w.on('message',m=>{events.push(m);if(m.type==='boot')w.postMessage({id:8,request:{requestId:'proof-web',fen:'9/9/3a1k3/6N2/9/9/9/9/9/4K4 w - - 0 1',moves:[],historyComplete:true,limits}});if(m.type==='error')reject(Error(m.error));if(m.type==='result')resolve();});});
+   const r=events.find(x=>x.type==='result').result;assert.equal(r.status,'proven-endgame');assert.equal(r.depth,0);assert.equal(r.move,'g6i5');assert.equal(r.proof.remainingPlies,15);assert.equal(events.filter(x=>x.type==='info').length,1);assert(events.some(x=>x.type==='model-phase'&&x.stage==='ready'));
+  }finally{await w.terminate();}
+ }
+});

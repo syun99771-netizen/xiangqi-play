@@ -25,7 +25,7 @@ function renderHistory(){
 function resetIterations(){$('iteration-list').replaceChildren();$('iterations').hidden=true;}
 function renderIteration(info){
  const row=document.createElement('li'),heading=document.createElement('strong'),line=document.createElement('p'),meta=document.createElement('small');
- heading.textContent=`第 ${info.depth} 层`;
+ heading.textContent=info.status==='proven-endgame'?'残局证明（非搜索层数）':`第 ${info.depth} 层`;
  try{const entries=chineseHistory([...game.moves,...info.pv]).slice(game.moves.length);line.textContent=entries.map(e=>`${e.side===1?'红':'黑'}：${e.text}`).join('　');}catch{line.textContent='走法暂无法显示';}
  meta.textContent=`${Math.round(info.time)} ms · ${info.nodes.toLocaleString()} 节点`;
  row.append(heading,line,meta);$('iteration-list').append(row);$('iterations').hidden=false;
@@ -40,7 +40,7 @@ function finish(result){
  try{
   if(!result.move){if(!terminal()){status('尚无完整搜索结果，未落子。请继续思考或重新开始。');$('retry').hidden=false;}return;}
   const from=(9-Number(result.move[1]))*9+result.move.charCodeAt(0)-97,to=(9-Number(result.move[3]))*9+result.move.charCodeAt(2)-97;
-  play(result.move);last=[from,to];$('stats').textContent=statsLabel(result,result.stoppedElapsed??null)+(result.depth===0?' · 时间不足，使用合法备用着法':'');
+  play(result.move);last=[from,to];$('stats').textContent=statsLabel(result,result.stoppedElapsed??null)+(result.depth===0&&result.status!=='proven-endgame'?' · 时间不足，使用合法备用着法':'');
   render();if(!terminal())status('轮到你了'+(game.board.inCheck()?' · 正在被将军':''));
  }catch(e){fail(e.message);}
 }
@@ -73,7 +73,7 @@ function advance(){
   if(data.type==='result'){
    const r=data.result;
    if(limits.mode==='infinite'&&r.move){clearTimeout(watchdog);clearInterval(statsTimer);resetLoading();latest=completedResult(r);$('stats').textContent=statsLabel(r);status(latest?'搜索已结束，点击“停止并走棋”采用结果。':'搜索已停止，尚无完整层结果；可停止后重试。');return;}
-   finish(limits.mode!=='time'&&r.depth===0?{...r,move:null}:r);
+   finish(limits.mode!=='time'&&r.depth===0&&r.status!=='proven-endgame'?{...r,move:null}:r);
   }
  };
  watchdog=setTimeout(()=>fail('模型加载超时，请重试'),120000);

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import {probeEndgameGuide} from './engine/src/endgame-guide.js';
 import {preparePosition} from './engine/src/sdk/core.js';
 import {Search, MATE} from './engine/src/search-public-b562.js';
 import {moveToUci} from './engine/src/board.js';
@@ -43,6 +44,30 @@ export function runCc0BenchmarkSearch(input, {model, onInfo = () => {}, stopFlag
       depth: 0, nodes: 0, time: 0, reason, context, profile};
   }
   if (!models.has(model)) throw new TypeError('Expected loadCc0BenchmarkModel handle');
+  // Preparation/referee/model authentication remain authoritative. The table is
+  // a root policy proof, never a TT bound, mate score, or a completed search layer.
+  const guideStart = performance.now();
+  const guideBudget = limits.movetime ?? 1000;
+  let guideStop = null;
+  const guideStopped = () => {
+    if (stopFlag && Atomics.load(stopFlag, 0)) guideStop = 'external';
+    else if (performance.now() - guideStart >= guideBudget) guideStop = 'time';
+    return guideStop !== null;
+  };
+  const proof = probeEndgameGuide(prepared, guideStopped);
+  if (proof) {
+    const result = {type:'result', requestId, status:'proven-endgame', terminal:false,
+      move:proof.move, pv:[proof.move], score:null, depth:0, nodes:0,
+      time:Math.round(performance.now()-guideStart), proof,
+      stopped:false, stopReason:null, completionReason:'endgame-proof',
+      completedIterations:[], context, profile};
+    onInfo({...result,type:'info',pv:[...result.pv]});
+    if (guideStopped()) {result.stopped=true;result.stopReason=guideStop;result.completionReason=null;}
+    return result;
+  }
+  if (guideStop) return {type:'result',requestId,status:'budget-exhausted',terminal:false,
+    move:null,pv:[],score:null,depth:0,nodes:0,time:Math.round(performance.now()-guideStart),
+    stopped:true,stopReason:guideStop,completionReason:null,completedIterations:[],context,profile};
   const player = createCc0BenchmarkPlayer(board, {model});
   try {
     const result = player.search.run(board, {...limits, stopFlag, gameHistory: judge.states,

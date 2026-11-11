@@ -41,3 +41,16 @@ test('per-layer principal variations use legal Chinese notation and original sid
  h.$('stop').onclick();assert.equal(h.run('game.moves.join()'),'h2e2,h9g7');
  h.$('restart').onclick();assert.equal(h.$('iteration-list').children.length,0);assert.equal(h.$('iterations').hidden,true);
 });
+
+test('proven endgame is not a fake layer; infinite waits for Stop and depth accepts proof',()=>{
+ const proof={status:'proven-endgame',proof:{source:'knka-exact-v1',remainingPlies:15},depth:0,nodes:0,time:1,pv:['a3a4'],move:'a3a4',score:null};
+ assert.equal(completedResult(proof).status,'proven-endgame');assert.match(statsLabel(proof),/残局证明.*15 半回合/);
+ for(const mode of ['infinite','depth','time']){
+  const h=harness();h.$('mode').value=mode;const w=h.start(),id=w.request.id;
+  w.onmessage({data:{id,type:'info',info:proof}});
+  if(mode==='infinite')assert.equal(h.$('iteration-list').children[0].children[0].textContent,'残局证明（非搜索层数）');
+  w.onmessage({data:{id,type:'result',result:proof}});
+  if(mode==='infinite'){assert.equal(h.run('game.moves.length'),0);h.$('stop').onclick();}
+  assert.equal(h.run('game.moves.join()'),'a3a4');assert.doesNotMatch(h.$('stats').textContent,/时间不足|完成深度/);assert.equal(h.timers.size,0);
+ }
+});
