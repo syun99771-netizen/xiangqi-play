@@ -210,7 +210,7 @@ export class Search {
     if(this.options.qsearchRepetition&&!this.nullDepth){const repeated=this.repetitionValue(ply);if(repeated!==null){this.totalCycleGuardReturns=(this.totalCycleGuardReturns??0)+1;return repeated;}}
     const terminal=this.publicNonRepetitionTerminal(ply);if(terminal!==null)return terminal;
     // Empty capture list alone is not stalemate. Xiangqi stalemate is a loss.
-    if(!moves.length&&(check||!this.legalMoves(ply).length))return -MATE+ply;
+    if(!moves.length&&(check||!(this.qsearchLegalExistence?.(this,ply)??this.legalMoves(ply).length)))return -MATE+ply;
     if(!check){if(stand>=beta)return stand;if(stand>alpha)alpha=stand;}
     if(!moves.length)return alpha;
     if(ply>=100){this.stopped=true;this.stopReason='hard-ply';throw STOP;}

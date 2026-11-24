@@ -101,8 +101,8 @@
       "sha256": "cefff6be57605d1dd7376c6c8cc85982e57fbdf66b710728de3ae70c2f865559"
     },
     "engine/src/board.js": {
-      "bytes": 15934,
-      "sha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf"
+      "bytes": 16428,
+      "sha256": "9bfc48c0200570ef4dda462ee1716846657b40ad4a4e1503b2c07200007f8999"
     },
     "engine/src/endgame-guide.js": {
       "bytes": 118830,
@@ -185,8 +185,8 @@
       "sha256": "d8c5ad1b028867b03f4a8d1a1d8bcf210d3d3170a4668379193fcaad83502dc4"
     },
     "engine/src/search-public-b562.js": {
-      "bytes": 27329,
-      "sha256": "15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8"
+      "bytes": 27371,
+      "sha256": "6de649bc55b8546a9eec7893d4e4070c0704121c49c9be6d9bc72de3b4f3e7ec"
     },
     "engine/src/search.js": {
       "bytes": 19852,
@@ -233,8 +233,8 @@
       "sha256": "662dc7782a4096f379330880b1a54dd5809cfa410ceeda6df769516ede440ecf"
     },
     "provenance/ENGINE-SOURCE.json": {
-      "bytes": 15176,
-      "sha256": "d95465cea894cc6dce97bf3a3e0dcf90180a488a09aa73790658651f87283298"
+      "bytes": 16816,
+      "sha256": "c8ec23ba9588008bbb63727bd68ed16cb26cce3dbb31d401de039968ad91cb88"
     },
     "provenance/KNKA-GUIDE.md": {
       "bytes": 4502,
@@ -249,8 +249,8 @@
       "sha256": "0ae2b440086f9f152ecc20d34497b9b7d3238b962dbca23591e4d371abffad5a"
     },
     "reference-core.mjs": {
-      "bytes": 4838,
-      "sha256": "51a0c692e1f7de0f545d11b8ae4cf02fa5301dbba463e30d95acc822abd48bf0"
+      "bytes": 5975,
+      "sha256": "1e5d9d2adcfa01d41aab85ba242c40fe0918f73de78dc1e856d85e9e16b418a2"
     },
     "scripts/build-cloudflare.mjs": {
       "bytes": 1741,
@@ -357,8 +357,8 @@
       "sha256": "0181ef367efe2a7882a84ee59a820540fcf94f1240b8231e64cfbd56040cb2e6"
     },
     "tests/package.test.mjs": {
-      "bytes": 6536,
-      "sha256": "08deb18b59d10a4e2f2aca2343e445ad1a333893cbeb7a2652f8041fa7c43dc3"
+      "bytes": 8251,
+      "sha256": "08584f162fa7c56f57f1b08db5dca931192d99ea4473fd7d12351f5476c233f5"
     },
     "tests/paired-ft-lanes.test.mjs": {
       "bytes": 3737,

@@ -10,7 +10,8 @@
     "2026-11-08: bypass unused leaf ordering-only TT probe",
     "2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics",
     "2026-11-08: incremental sorted-owned feature validation without Set; full-refresh validation unchanged",
-    "2026-11-12: one optional exact fixed-memory SIMD NNUE numeric head; scalar capability/CSP fallback, no other WASM/native backend"
+    "2026-11-12: one optional exact fixed-memory SIMD NNUE numeric head; scalar capability/CSP fallback, no other WASM/native backend",
+    "2026-11-24 C07-r1-qlegal: unchecked quiescence with no legal captures uses exact first-legal existence on the pinned reference board; legal move generation and adjudication fallback preserved"
   ],
   "excluded": [
     "board-pseudo-index candidate",
@@ -115,9 +116,18 @@
     },
     {
       "path": "engine/src/board.js",
-      "bytes": 15934,
-      "sha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf",
-      "transformation": "none"
+      "bytes": 16428,
+      "sha256": "9bfc48c0200570ef4dda462ee1716846657b40ad4a4e1503b2c07200007f8999",
+      "transformation": "2026-11-24 C07-r1-qlegal: unchecked quiescence with no legal captures uses exact first-legal existence on the pinned reference board; legal move generation and adjudication fallback preserved",
+      "priorVersions": [
+        {
+          "bytes": 15934,
+          "sha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf",
+          "transformation": "none"
+        }
+      ],
+      "baselineSha256": "ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf",
+      "baselineBytes": 15934
     },
     {
       "path": "engine/src/evaluate.js",
@@ -237,11 +247,11 @@
     },
     {
       "path": "engine/src/search-public-b562.js",
-      "bytes": 27329,
-      "sha256": "15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8",
-      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score",
+      "bytes": 27371,
+      "sha256": "6de649bc55b8546a9eec7893d4e4070c0704121c49c9be6d9bc72de3b4f3e7ec",
+      "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score; 2026-11-24 C07-r1-qlegal: unchecked quiescence with no legal captures uses exact first-legal existence on the pinned reference board; legal move generation and adjudication fallback preserved",
       "baselineSha256": "cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7",
-      "previousSha256": "333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27",
+      "previousSha256": "15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8",
       "priorVersions": [
         {
           "bytes": 25529,
@@ -257,6 +267,11 @@
           "bytes": 25749,
           "sha256": "333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27",
           "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration"
+        },
+        {
+          "bytes": 27329,
+          "sha256": "15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8",
+          "transformation": "2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score"
         }
       ]
     },

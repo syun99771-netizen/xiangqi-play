@@ -2,13 +2,16 @@
 import {probeEndgameGuide} from './engine/src/endgame-guide.js';
 import {preparePosition} from './engine/src/sdk/core.js';
 import {Search, MATE} from './engine/src/search-public-b562.js';
-import {moveToUci} from './engine/src/board.js';
+import {Board,moveToUci} from './engine/src/board.js';
 import {parseNnue} from './engine/experimental/fairy-cc0-sparse-head-v1/parser.mjs';
 import {createCachedEvaluator} from './engine/experimental/cc0-static-eval-cache-v1/cache.mjs';
 import {withPublicSearchCapabilities} from './engine/src/public-search-capabilities.js';
 import {BENCHMARK_PROFILE, benchmarkRequest, configureBenchmarkBoard} from './engine/experimental/cc0-portable-public-b562-v2/profile.mjs';
 export {BENCHMARK_PROFILE};
 const models = new WeakMap();
+const proto=Board.prototype, nativeLegal=proto.generateLegalMoves, nativeFast=proto.generateLegalMovesFast,
+  nativeAttacked=proto.isAttackedFast, nativeCheck=proto.inCheck, nativePseudo=proto.generatePseudoMoves,
+  firstLegal=proto.hasLegalMoveFast, nativeSearchMoves=Search.prototype.legalMoves;
 export function loadCc0BenchmarkModel(bytes) {
   const parsed = parseNnue(bytes);
   const handle = Object.freeze({format: parsed.format, byteLength: parsed.byteLength,
@@ -24,9 +27,21 @@ function createCc0BenchmarkPlayer(board, {model, arm = 'candidate', clock, timeB
   const parsed = models.get(model);
   if (arm === 'candidate' && !parsed) throw new TypeError('Expected loadCc0BenchmarkModel handle');
   const evaluator = arm === 'candidate' ? createCachedEvaluator(parsed) : null;
+  const authentic = Object.getPrototypeOf(board)===proto &&
+    !Object.hasOwn(board,'generateLegalMoves')&&!Object.hasOwn(board,'isAttacked')&&
+    board.generateLegalMoves===nativeLegal && board.generateLegalMovesFast===nativeFast &&
+    board.isAttackedFast===nativeAttacked && board.inCheck===nativeCheck &&
+    board.generatePseudoMoves===nativePseudo;
   const config = configureBenchmarkBoard(board, arm);
   try {
-    return {config, search: new Search({...config.searchOptions, retainCompletedRootWin:arm==='candidate', clock, timeBasis, ...(evaluator ? {evaluator} : {})})};
+    const search = new Search({...config.searchOptions, retainCompletedRootWin:arm==='candidate', clock, timeBasis, ...(evaluator ? {evaluator} : {})});
+    if(authentic && arm==='candidate'){
+      const boundLegal=board.generateLegalMoves,boundAttack=board.isAttacked;
+      search.qsearchLegalExistence=(self,ply)=>self.board===board&&!self.options.typedMoveBuffers&&self.legalMoves===nativeSearchMoves&&
+        board.generateLegalMoves===boundLegal&&board.isAttacked===boundAttack&&board.inCheck===nativeCheck&&
+        board.generatePseudoMoves===nativePseudo ? firstLegal.call(board) : undefined;
+    }
+    return {config,search};
   } catch (error) {config.restore(); throw error;}
 }
 

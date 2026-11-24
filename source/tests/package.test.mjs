@@ -21,10 +21,20 @@ test('every engine module matches provenance and explicitly recorded updates', a
     assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256,item.path);
     if(item.path==='engine/src/search-public-b562.js') {
       assert.equal(item.baselineSha256,'cee41fed67ae0c219ef1276b77bdd418624f0f9986c0646b5547f089878865f7');
-      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score');
-      assert.equal(item.previousSha256,'333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27');
-      assert.equal(item.priorVersions.at(-1).sha256,'333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27');
-      assert.equal(item.priorVersions.at(-1).bytes,25749);
+      assert.equal(item.transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score; 2026-11-24 C07-r1-qlegal: unchecked quiescence with no legal captures uses exact first-legal existence on the pinned reference board; legal move generation and adjudication fallback preserved');
+      assert.equal(item.previousSha256,'15a8640a4b6b39854b4437152c8851035d39ee72ce0652fa20bc88f34712b1c8');
+      assert.equal(item.priorVersions.at(-1).sha256,item.previousSha256);
+      assert.equal(item.priorVersions.at(-1).bytes,27329);
+      assert.equal(item.priorVersions.at(-1).transformation,'2026-11-08: skip unused checked-quiescence static evaluation; bypass unused leaf ordering-only TT probe; 2026-11-10: defer ordinary quiescence move ordering until expansion (typed compatibility unchanged); 2026-11-11: honor external cancellation immediately after onInfo returns before mate/time/depth completion; preserve completed iteration; 2026-11-12 isolated candidate: retain completed strict-public root forced-win lower bound on later time/node stop only, reject cycle contamination/extensions/external cancellation, expose unfinished-root metadata without score');
+      assert.equal(item.priorVersions.at(-2).sha256,'333ecb6ff06f9ee2f2058134c72b822a90811a18b0afde949a47d03f30309c27');
+      assert.equal(item.priorVersions.at(-2).bytes,25749);
+      assert.equal(item.sha256,'6de649bc55b8546a9eec7893d4e4070c0704121c49c9be6d9bc72de3b4f3e7ec');
+    } else if(item.path==='engine/src/board.js') {
+      assert.equal(item.transformation,"2026-11-24 C07-r1-qlegal: unchecked quiescence with no legal captures uses exact first-legal existence on the pinned reference board; legal move generation and adjudication fallback preserved");
+      assert.equal(item.baselineSha256,'ce6eb5b1c3e0aac3282e3c0d668426f03f225e5c2ba6437a4f1233e1aad518cf');
+      assert.equal(item.baselineBytes,15934);
+      assert.deepEqual(item.priorVersions.at(-1),{bytes:15934,sha256:item.baselineSha256,transformation:'none'});
+      assert.equal(item.sha256,'9bfc48c0200570ef4dda462ee1716846657b40ad4a4e1503b2c07200007f8999');
     } else if(item.path==='engine/experimental/fairy-cc0-sparse-head-v1/forward.mjs') {
       assert.equal(item.baselineSha256,'f91140639992dc304dc6ec88917b30ebb9ec4d8a05f8cdc84e756814de223ad0');
       assert.equal(item.transformation,'2026-11-08: transactional two-bank accumulator workspace; preserve arithmetic and arbitrary-jump semantics; incremental sorted-owned validation without Set (full-refresh unchanged); paired independent mod16 delta lanes via private native-endian Uint32 views (unaligned scalar fallback); exact Float64 adjacent-output paired first head (Q=2^26); 2026-11-10: session-private raw inference intermediate workspace (diagnostic/full-refresh ownership unchanged); 2026-11-10: reuse exact paired-lane kernel for aligned private-session refresh; scalar full-refresh and unaligned fallback unchanged; 2026-11-12: raw inference may use one exact fixed-memory WASM SIMD numeric head; diagnostics and scalar fallback unchanged');

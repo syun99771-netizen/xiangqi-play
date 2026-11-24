@@ -307,6 +307,17 @@ export class Board {
     }
     return legal;
   }
+  hasLegalMoveFast() {
+    const side=this.turn,moves=this.generatePseudoMoves(),b=this.squares,ki=kingIndex(side);
+    for(const move of moves) {
+      const from=moveFrom(move),to=moveTo(move),piece=b[from],captured=b[to];
+      const king=Math.abs(piece)===7,oldKing=this.kings[ki];
+      b[from]=0;b[to]=piece;if(king)this.kings[ki]=to;
+      try {if(!this.inCheck(side))return true;}
+      finally {b[from]=piece;b[to]=captured;if(king)this.kings[ki]=oldKing;}
+    }
+    return false;
+  }
   isLegalMove(move) {
     // Keep original evaluation/exception order for customized generators.
     if(this.generateLegalMoves!==referenceLegalMoves)return this.generateLegalMoves().includes(typeof move==='string'?uciToMove(move):move);
